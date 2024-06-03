@@ -32,18 +32,13 @@ const path = require("path");
       await driver.findElement(By.name("validasi_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER); // Memilih opsi pertama di dropdown
       await driver.findElement(By.name("tahun_dokumen")).sendKeys("Tahun");
 
-      // Gunakan path absolut yang benar untuk file
       let filePath = path.resolve("");
       await driver.findElement(By.id("formFile")).sendKeys(filePath);
 
-      // Tambahkan tags
       await driver.findElement(By.id("tags")).sendKeys("123", Key.RETURN);
 
-      // Gunakan JavaScript untuk klik tombol submit
       let submitButton = await driver.findElement(By.css("button[type='submit']"));
       await driver.executeScript("arguments[0].click();", submitButton);
-
-      // Tunggu sampai muncul pesan sukses atau redirect
 
       console.log("Form gagal di kirim");
     } else {

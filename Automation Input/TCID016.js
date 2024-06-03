@@ -21,12 +21,12 @@ const path = require("path");
       console.log("Berhasil mengakses halaman Input Dokumen!");
       await driver.sleep(2000);
 
-      // Scroll to the cancel button
+      // Scroll agar button cancel tampil di halaman
       let cancelButton = await driver.findElement(By.id("cancelButton"));
       await driver.executeScript("arguments[0].scrollIntoView(true);", cancelButton);
-      await driver.sleep(1000); // Wait for any potential lazy-loaded script
+      await driver.sleep(1000);
 
-      // Click the cancel button
+      // Klik button cance
       await driver.executeScript("arguments[0].click();", cancelButton);
       console.log("Batal mengirim form!");
     } else {
