@@ -22,7 +22,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     }
 
     // Memanggil fungsi pencarian dengan query tertentu
-    await searchByTitle("Judul1");
+    await searchByTitle("Dokumen");
     await driver.sleep(1000);
     console.log("judul dokumen berhasil di cari");
 

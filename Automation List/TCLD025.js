@@ -25,7 +25,8 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     }
 
     // Memanggil fungsi filter dengan kategori tertentu
-    await filterByCategory("Dokumen Visi Misi");
+    await filterByCategory("Dokumen Tata Kelola");
+    await driver.sleep(1000);
     console.log("dokumen berhasil di  filter");
 
     // Lakukan operasi selanjutnya setelah filter selesai
