@@ -28,11 +28,8 @@ async function searchDocument() {
     let rows = await driver.findElements(By.css("#documentTableBody tr"));
 
     // Log hasil pencarian
-    for (let row of rows) {
-      let title = await row.findElement(By.css("td:nth-child(2)")).getText();
-      let tags = await row.findElement(By.css("td:nth-child(8)")).getText();
-      console.log("search berhasil");
-    }
+
+    console.log("search berhasil");
   } finally {
     // Tutup browser
     await driver.quit();

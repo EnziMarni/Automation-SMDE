@@ -27,18 +27,26 @@ const path = require("path");
 
       // Isi formulir Input Dokumen
       await driver.findElement(By.name("judul_dokumen")).sendKeys("1234");
+      await driver.sleep(1000);
       await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Ini adalah deskripsi dokumen");
+      await driver.sleep(1000);
       await driver.findElement(By.name("kategori_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER); // Memilih opsi pertama di dropdown
+      await driver.sleep(1000);
       await driver.findElement(By.name("validasi_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER); // Memilih opsi pertama di dropdown
+      await driver.sleep(1000);
       await driver.findElement(By.name("tahun_dokumen")).sendKeys("Tahun");
+      await driver.sleep(1000);
 
       let filePath = path.resolve("");
       await driver.findElement(By.id("formFile")).sendKeys(filePath);
+      await driver.sleep(1000);
 
       await driver.findElement(By.id("tags")).sendKeys("123", Key.RETURN);
+      await driver.sleep(1000);
 
       let submitButton = await driver.findElement(By.css("button[type='submit']"));
       await driver.executeScript("arguments[0].click();", submitButton);
+      await driver.sleep(1000);
 
       console.log("Form gagal di kirim");
     } else {

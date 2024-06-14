@@ -47,7 +47,7 @@ const path = require("path");
       let editPageTitle = await driver.findElement(By.css("h3.judul")).getText();
       console.log("Judul halaman edit:", editPageTitle);
 
-      if (editPageTitle === "EDIT DOKUMEN") {
+      if (editPageTitle === "UPDATE DOKUMEN") {
         console.log("Berhasil mengakses halaman Edit Dokumen!");
 
         // Scroll ke bawah untuk memastikan tombol "Cancel" terlihat di layar

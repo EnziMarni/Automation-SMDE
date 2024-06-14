@@ -33,12 +33,13 @@ const path = require("path");
       console.log("Scroll ke kanan untuk menampilkan ikon edit");
 
       // Penundaan sebelum mengklik tombol edit
-      await driver.sleep(2000); // Penundaan 2 detik
+      await driver.sleep(5000); // Penundaan 5 detik
 
       // Pilih dokumen pertama di daftar dan klik tombol edit
       let editButton = await driver.findElement(By.css("a[href*='edit'] .fa-edit"));
-      await driver.executeScript("arguments[0].scrollIntoView();", editButton); // Scroll hingga editButton terlihat
-      await editButton.click();
+      await driver.executeScript("arguments[0].scrollIntoView(true);", editButton); // Scroll hingga editButton terlihat
+      await driver.executeScript("arguments[0].style.display='block'; arguments[0].style.visibility='visible';", editButton);
+      await driver.executeScript("arguments[0].click();", editButton); // Klik elemen menggunakan JavaScript
       console.log("Klik tombol edit pada dokumen pertama di daftar");
 
       // Penundaan sebelum memeriksa judul halaman edit
@@ -47,7 +48,7 @@ const path = require("path");
       let editPageTitle = await driver.findElement(By.css("h3.judul")).getText();
       console.log("Judul halaman edit:", editPageTitle);
 
-      if (editPageTitle === "EDIT DOKUMEN") {
+      if (editPageTitle === "UPDATE DOKUMEN") {
         console.log("Berhasil mengakses halaman Edit Dokumen!");
 
         console.log("Berhasil akses halaman edit dokumen");

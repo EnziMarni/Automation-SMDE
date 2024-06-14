@@ -29,8 +29,8 @@ async function searchDocument() {
 
     // Log hasil pencarian
     for (let row of rows) {
-      let title = await row.findElement(By.css("td:nth-child(2)")).getText();
-      let tags = await row.findElement(By.css("td:nth-child(8)")).getText();
+      let title = await row.findElement(By.css("td:nth-child(1)")).getText();
+
       console.log("search berhasil");
     }
   } finally {

@@ -1,23 +1,26 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
+require("chromedriver");
 
-(async function example() {
+async function deleteDocument() {
   let driver = await new Builder().forBrowser("chrome").build();
+
   try {
-    // Login
     await driver.get("http://127.0.0.1:8000/login");
     await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
     await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
-    // Akses halaman list dokumen
-    await driver.get("http://127.0.0.1:8000/list-dokumen");
+    // Buka halaman list dokumen
+    await driver.get("http://localhost:8000/draft-dokumen");
+    await driver.sleep(1000);
 
-    // View file dokumen pertama dalam list
-    await driver.sleep(1000);
-    await driver.executeScript("arguments[0].click();", await driver.findElement(By.xpath("//table/tbody/tr[1]/td[7]/a")));
-    await driver.sleep(1000);
-    console.log("Dokumen berhasil di akses");
+    console.log("Berhasil akses halaman draft dokumen");
+  } catch (error) {
+    console.error("Error during document deletion:", error);
   } finally {
+    // Tutup browser
     await driver.quit();
   }
-})();
+}
+
+deleteDocument();

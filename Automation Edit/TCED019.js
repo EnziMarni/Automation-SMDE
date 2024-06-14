@@ -47,7 +47,7 @@ const path = require("path");
       let editPageTitle = await driver.findElement(By.css("h3.judul")).getText();
       console.log("Judul halaman edit:", editPageTitle);
 
-      if (editPageTitle === "EDIT DOKUMEN") {
+      if (editPageTitle === "UPDATE DOKUMEN") {
         console.log("Berhasil mengakses halaman Edit Dokumen!");
 
         // Isi formulir Edit Dokumen
@@ -83,7 +83,7 @@ const path = require("path");
         let updateButton = await driver.findElement(By.css("button[type='submit']"));
         await driver.executeScript("arguments[0].click();", updateButton);
 
-        console.log("Dokumen berhasil diedit!");
+        console.log("Dokumen gagal diedit!");
       } else {
         throw new Error("Tidak berhasil mengakses halaman Edit Dokumen!");
       }
