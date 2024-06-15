@@ -7,7 +7,7 @@ const path = require("path");
     // Login ke aplikasi
     await driver.get("http://127.0.0.1:8000/login");
     await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
-    await driver.sleep(1000); // Penundaan 1 detik
+    await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
     // Tunggu sampai halaman home
@@ -29,20 +29,19 @@ const path = require("path");
       console.log("Berhasil mengakses halaman List Dokumen!");
 
       // Scroll ke kanan untuk menampilkan icon edit
-      await driver.executeScript("window.scrollBy(10000,0)"); // Menggeser 1000px ke kanan
+      await driver.executeScript("window.scrollBy(10000,0)");
       console.log("Scroll ke kanan untuk menampilkan ikon edit");
 
       // Penundaan sebelum mengklik tombol edit
-      await driver.sleep(2000); // Penundaan 2 detik
+      await driver.sleep(2000);
 
       // Pilih dokumen pertama di daftar dan klik tombol edit
       let editButton = await driver.findElement(By.css("a[href*='edit'] .fa-edit"));
-      await driver.executeScript("arguments[0].scrollIntoView();", editButton); // Scroll hingga editButton terlihat
+      await driver.executeScript("arguments[0].scrollIntoView();", editButton);
       await editButton.click();
       console.log("Klik tombol edit pada dokumen pertama di daftar");
 
-      // Penundaan sebelum memeriksa judul halaman edit
-      await driver.sleep(2000); // Penundaan 2 detik
+      await driver.sleep(2000);
 
       let editPageTitle = await driver.findElement(By.css("h3.judul")).getText();
       console.log("Judul halaman edit:", editPageTitle);
@@ -54,8 +53,7 @@ const path = require("path");
         await driver.findElement(By.name("judul_dokumen")).clear();
         await driver.findElement(By.name("judul_dokumen")).sendKeys("");
 
-        // Penundaan sebelum mengisi deskripsi
-        await driver.sleep(1000); // Penundaan 1 detik
+        await driver.sleep(1000);
         await driver.findElement(By.name("deskripsi_dokumen")).clear();
         await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("");
 

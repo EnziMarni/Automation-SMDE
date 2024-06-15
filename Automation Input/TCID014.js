@@ -18,7 +18,6 @@ const path = require("path");
     // Akses halaman Input Dokumen
     await driver.findElement(By.id("v-pills-profile-tab")).click();
 
-    // Tunggu sampai elemen unik di halaman Input Dokumen muncul
     await driver.wait(until.elementLocated(By.css("h3.judul")), 10000);
     let pageTitle = await driver.findElement(By.css("h3.judul")).getText();
 
@@ -30,9 +29,9 @@ const path = require("path");
       await driver.sleep(1000);
       await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("");
       await driver.sleep(1000);
-      await driver.findElement(By.name("kategori_dokumen")).sendKeys(); // Memilih opsi pertama di dropdown
+      await driver.findElement(By.name("kategori_dokumen")).sendKeys();
       await driver.sleep(1000);
-      await driver.findElement(By.name("validasi_dokumen")).sendKeys(); // Memilih opsi pertama di dropdown
+      await driver.findElement(By.name("validasi_dokumen")).sendKeys();
       await driver.sleep(1000);
       await driver.findElement(By.name("tahun_dokumen")).sendKeys("");
       await driver.sleep(1000);

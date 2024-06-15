@@ -2,7 +2,6 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 require("chromedriver");
 
 async function searchDocument() {
-  // Buat instance WebDriver
   let driver = await new Builder().forBrowser("chrome").build();
 
   try {
@@ -11,30 +10,25 @@ async function searchDocument() {
     await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
-    // Buka halaman yang akan diuji
-    await driver.get("http://localhost:8000/list-dokumen"); // Ganti dengan URL yang sesuai
+    await driver.get("http://localhost:8000/list-dokumen");
 
     // Tunggu elemen input pencarian terlihat
     let searchInput = await driver.wait(until.elementLocated(By.id("search")), 10000);
 
-    // Masukkan kata kunci pencarian
+    // kata kunci pencarian
     await driver.sleep(1000);
-    await searchInput.sendKeys("tag"); // Ganti dengan kata kunci yang ingin diuji
+    await searchInput.sendKeys("tag");
 
-    // Tunggu hasil pencarian muncul
-    await driver.sleep(2000); // Tunggu 2 detik untuk memastikan hasil pencarian telah diperbarui
+    await driver.sleep(2000);
 
-    // Ambil hasil pencarian dari tabel
     let rows = await driver.findElements(By.css("#documentTableBody tr"));
 
-    // Log hasil pencarian
     for (let row of rows) {
       let title = await row.findElement(By.css("td:nth-child(2)")).getText();
       let tags = await row.findElement(By.css("td:nth-child(8)")).getText();
       console.log("Search berhasil");
     }
   } finally {
-    // Tutup browser
     await driver.quit();
   }
 }

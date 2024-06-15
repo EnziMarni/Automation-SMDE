@@ -26,7 +26,7 @@ const path = require("path");
       await driver.executeScript("arguments[0].scrollIntoView(true);", cancelButton);
       await driver.sleep(1000);
 
-      // Klik button cance
+      // Klik button cancel
       await driver.executeScript("arguments[0].click();", cancelButton);
       console.log("Batal mengirim form!");
     } else {

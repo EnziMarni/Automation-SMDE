@@ -8,7 +8,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
   } catch (error) {
     console.error("Login gagal:", error);
   } finally {
-    await driver.sleep(2000); // Menunggu 2 detik sebelum mencari elemen
+    await driver.sleep(2000);
     await driver.quit();
   }
 })();

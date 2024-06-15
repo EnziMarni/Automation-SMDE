@@ -3,7 +3,6 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 (async function example() {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
-    // Navigate to the login page and log in
     await driver.get("http://127.0.0.1:8000/login");
     await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
     await driver.sleep(1000);
@@ -11,7 +10,6 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
     console.log("Login berhasil!");
 
-    // Screen sizes to test
     const screenSizes = [
       { width: 1024, height: 768 }, // Tablet landscape
       { width: 768, height: 1024 }, // Tablet portrait
@@ -21,15 +19,8 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 
     for (const size of screenSizes) {
       await driver.manage().window().setRect({ width: size.width, height: size.height });
-      await driver.sleep(2000); // Pause to allow layout changes to take effect
+      await driver.sleep(2000);
       console.log(`Testing at resolution: ${size.width}x${size.height}`);
-
-      // Optionally take screenshots
-      const screenshot = await driver.takeScreenshot();
-      require("fs").writeFileSync(`screenshot-${size.width}x${size.height}.png`, screenshot, "base64");
-
-      // Add specific checks for each resolution if needed
-      // For example, checking visibility of elements, layout breaks, etc.
     }
 
     console.log("Responsive tests completed successfully!");

@@ -30,9 +30,9 @@ const path = require("path");
       await driver.sleep(1000);
       await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Ini adalah deskripsi dokumen");
       await driver.sleep(1000);
-      await driver.findElement(By.name("kategori_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER); // Memilih opsi pertama di dropdown
+      await driver.findElement(By.name("kategori_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER);
       await driver.sleep(1000);
-      await driver.findElement(By.name("validasi_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER); // Memilih opsi pertama di dropdown
+      await driver.findElement(By.name("validasi_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER);
       await driver.sleep(1000);
       await driver.findElement(By.name("tahun_dokumen")).sendKeys("Tahun");
       await driver.sleep(1000);

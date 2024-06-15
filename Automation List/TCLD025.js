@@ -14,13 +14,10 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 
     // Fungsi untuk melakukan filter berdasarkan kategori
     async function filterByCategory(category) {
-      // Mendapatkan elemen dropdown filter
       const filterDropdown = await driver.findElement(By.id("filter"));
 
-      // Memilih opsi kategori sesuai dengan parameter
       await filterDropdown.findElement(By.css(`option[value="${category}"]`)).click();
 
-      // Tunggu sejenak untuk memastikan hasil filter diterapkan
       await driver.sleep(1000);
     }
 
@@ -28,8 +25,6 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     await filterByCategory("Dokumen Tata Kelola");
     await driver.sleep(1000);
     console.log("dokumen berhasil di  filter");
-
-    // Lakukan operasi selanjutnya setelah filter selesai
   } finally {
     await driver.quit();
   }

@@ -1,10 +1,11 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 require("chromedriver");
 
-async function deleteDocument() {
+async function viewDocumentHistory() {
   let driver = await new Builder().forBrowser("chrome").build();
 
   try {
+    // Masuk ke halaman login
     await driver.get("http://127.0.0.1:8000/login");
     await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
     await driver.sleep(1000);
@@ -12,28 +13,22 @@ async function deleteDocument() {
 
     // Buka halaman list dokumen
     await driver.get("http://localhost:8000/list-dokumen");
-
-    await driver.wait(until.elementLocated(By.id("documentTableBody")), 10000);
-
-    let deleteButton = await driver.findElement(By.css("#documentTableBody tr:first-child form button[type='submit']"));
-
-    await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });", deleteButton);
-
     await driver.sleep(1000);
 
-    // Klik tombol delete
-    await deleteButton.click();
+    await driver.wait(until.elementLocated(By.css("a.btn.btn-link i.fa-history")), 10000);
+
+    let viewHistoryIcon = await driver.findElement(By.css("a.btn.btn-link i.fa-history"));
+
+    // Scroll ke ikon history secara horizontal
+    await driver.executeScript("arguments[0].scrollIntoView({ block: 'nearest', inline: 'center' });", viewHistoryIcon);
     await driver.sleep(1000);
 
-    await driver.switchTo().alert().accept();
-    await driver.sleep(1000);
-
-    console.log("Dokumen berhasil dihapus.");
+    console.log("View icon history berhasil");
   } catch (error) {
-    console.error("Error during document deletion:", error);
+    console.error("Error during viewing document history:", error);
   } finally {
     await driver.quit();
   }
 }
 
-deleteDocument();
+viewDocumentHistory();

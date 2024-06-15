@@ -10,22 +10,17 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
-    // Buka halaman web
     await driver.get("http://127.0.0.1:8000/list-dokumen");
 
-    // Tunggu hingga elemen dropdown filter muncul
     await driver.wait(until.elementLocated(By.id("filter")), 10000);
 
     await driver.findElement(By.id("filter")).sendKeys("Dokumen Visi Misi", Key.RETURN);
 
-    // Tunggu beberapa saat untuk membiarkan hasil filter muncul
     await driver.sleep(3000);
 
-    // Dapatkan jumlah baris tabel yang terlihat setelah filter
     let visibleRows = await driver.findElements(By.css("#documentTableBody tr"));
     console.log("Jumlah baris tabel setelah filter:", visibleRows.length);
   } finally {
-    // Tutup browser setelah selesai
     await driver.quit();
   }
 })();

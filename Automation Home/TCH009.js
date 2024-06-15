@@ -24,7 +24,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 
     for (const menu of menus) {
       await driver.findElement(By.id(menu.id)).click();
-      await driver.sleep(2000); // Tunggu sebentar agar halaman dapat dimuat
+      await driver.sleep(2000);
       console.log(`Navigasi ke ${menu.title} berhasil!`);
     }
   } catch (error) {

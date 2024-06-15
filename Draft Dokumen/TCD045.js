@@ -11,18 +11,15 @@ async function deleteDocumentFromDraft() {
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
     await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
 
-    // Navigate to draft document page
     await driver.get("http://localhost:8000/draft-dokumen");
     await driver.sleep(1000);
 
-    // Find the delete button and click
     let deleteButton = await driver.findElement(By.css("button[type='submit'] > i.fa.fa-trash"));
     await driver.sleep(1000);
     await deleteButton.click();
     await driver.sleep(1000);
 
-    // Handle confirmation dialog (if any)
-    await driver.switchTo().alert().accept(); // Confirm deletion
+    await driver.switchTo().alert().accept();
     await driver.sleep(1000);
 
     console.log("Draft document deleted successfully.");

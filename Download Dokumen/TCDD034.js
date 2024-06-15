@@ -13,27 +13,20 @@ async function downloadDocument() {
     // Buka halaman list dokumen
     await driver.get("http://localhost:8000/list-dokumen");
 
-    // Tunggu hingga halaman selesai dimuat
     await driver.wait(until.elementLocated(By.id("documentTableBody")), 10000);
 
-    // Temukan tautan unduh pertama dan klik
     let downloadLink = await driver.findElement(By.css("#documentTableBody tr:first-child a.btn.btn-link"));
 
-    // Scroll ke tautan unduh jika perlu
     await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });", downloadLink);
 
-    // Tunggu sejenak untuk memastikan elemen dapat diklik
     await driver.sleep(1000);
 
-    // Klik tautan unduh
     await downloadLink.click();
 
-    // Tangani dialog konfirmasi unduhan (opsional)
-    await driver.sleep(2000); // Tunggu beberapa detik untuk dialog muncul (jika ada)
+    await driver.sleep(2000);
 
     console.log("Unduhan berhasil dipicu.");
   } finally {
-    // Tutup browser
     await driver.quit();
   }
 }

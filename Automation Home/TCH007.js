@@ -10,13 +10,12 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
-    // Tunggu sampai halaman masuk
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
     console.log("Login berhasil!");
   } catch (error) {
     console.error("Login gagal:", error);
   } finally {
-    await driver.sleep(2000); // Menunggu 2 detik sebelum mencari elemen
+    await driver.sleep(2000);
     await driver.quit();
   }
 })();

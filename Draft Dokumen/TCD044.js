@@ -18,7 +18,6 @@ async function deleteDocument() {
   } catch (error) {
     console.error("Error during document deletion:", error);
   } finally {
-    // Tutup browser
     await driver.quit();
   }
 }

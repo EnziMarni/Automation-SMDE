@@ -1,10 +1,11 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 require("chromedriver");
 
-async function cancelDownloadDocument() {
+async function filterByOldestYear() {
   let driver = await new Builder().forBrowser("chrome").build();
 
   try {
+    // Masuk ke halaman login
     await driver.get("http://127.0.0.1:8000/login");
     await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
     await driver.sleep(1000);
@@ -12,25 +13,23 @@ async function cancelDownloadDocument() {
 
     // Buka halaman list dokumen
     await driver.get("http://localhost:8000/list-dokumen");
-
-    await driver.wait(until.elementLocated(By.id("documentTableBody")), 10000);
-
-    let downloadLink = await driver.findElement(By.css("#documentTableBody tr:first-child a.btn.btn-link"));
-
-    await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });", downloadLink);
-
     await driver.sleep(1000);
 
-    await downloadLink.click();
+    await driver.wait(until.elementLocated(By.id("yearFilter")), 10000);
 
+    let yearFilterDropdown = await driver.findElement(By.id("yearFilter"));
+
+    // Pilih opsi "Terlama" dari dropdown filter tahun
+    let yearOptionOldest = await driver.findElement(By.css("option[value='oldest']"));
+    await yearOptionOldest.click();
     await driver.sleep(2000);
 
-    console.log("Unduhan berhasil dibatalkan.");
+    console.log("Filter 'Terlama' berhasil dipilih.");
   } catch (error) {
-    console.error("Error during download cancellation:", error);
+    console.error("Error during filtering by oldest year:", error);
   } finally {
     await driver.quit();
   }
 }
 
-cancelDownloadDocument();
+filterByOldestYear();

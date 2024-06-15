@@ -14,7 +14,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
     console.log("Login Gagal!");
   } finally {
-    await driver.sleep(2000); // Menunggu 2 detik sebelum mencari elemen
+    await driver.sleep(2000);
     await driver.quit();
   }
 })();

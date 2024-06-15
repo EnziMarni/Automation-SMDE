@@ -11,11 +11,9 @@ async function unarchiveDocument() {
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
     await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
 
-    // Navigate to draft document page
     await driver.get("http://localhost:8000/draft-dokumen");
     await driver.sleep(1000);
 
-    // Find the unarchive button and click
     let unarchiveButton = await driver.findElement(By.css("button[type='submit'] > i.fa.fa-arrow-left"));
     await driver.sleep(1000);
     await unarchiveButton.click();
