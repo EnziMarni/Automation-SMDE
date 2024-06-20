@@ -14,7 +14,8 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 
     // View file dokumen pertama dalam list
     await driver.sleep(1000);
-    await driver.executeScript("arguments[0].click();", await driver.findElement(By.xpath("//table/tbody/tr[1]/td[7]/a")));
+    let viewFileLink = await driver.findElement(By.xpath("//table/tbody/tr[1]/td[8]/a"));
+    await viewFileLink.click();
     await driver.sleep(1000);
     console.log("Dokumen berhasil di akses");
   } finally {

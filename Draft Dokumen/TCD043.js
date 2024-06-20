@@ -5,34 +5,48 @@ async function deleteDocument() {
   let driver = await new Builder().forBrowser("chrome").build();
 
   try {
+    // Buka halaman login
     await driver.get("http://127.0.0.1:8000/login");
+
+    // Login
     await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
     await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
-    // Buka halaman list dokumen
-    await driver.get("http://localhost:8000/list-dokumen");
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    console.log("Login berhasil!");
 
-    await driver.wait(until.elementLocated(By.id("documentTableBody")), 10000);
+    // Navigasi ke halaman list dokumen
+    await driver.get("http://127.0.0.1:8000/list-dokumen");
 
-    let deleteButton = await driver.findElement(By.css("#documentTableBody tr:first-child form button[type='submit']"));
+    await driver.wait(until.elementLocated(By.css("#documentTableBody tr")), 20000);
 
-    // Scroll ke tombol delete jika perlu
-    await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });", deleteButton);
+    // Ambil baris pertama dari tabel dokumen
+    let firstRow = await driver.findElement(By.css("#documentTableBody tr:first-child"));
 
+    await driver.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", firstRow);
+
+    // Tunggu elemen terlihat
+    await driver.wait(until.elementIsVisible(firstRow), 2000);
+
+    // Klik tombol hapus di baris pertama
+    let deleteButton = await firstRow.findElement(By.css('form button[type="submit"]'));
+    await driver.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", deleteButton);
     await driver.sleep(1000);
-
     await deleteButton.click();
     await driver.sleep(1000);
 
+    // Tunggu sampai konfirmasi muncul dan terima konfirmasi
+    await driver.wait(until.alertIsPresent(), 2000);
     await driver.switchTo().alert().accept();
     await driver.sleep(1000);
 
+    console.log("Dokumen berhasil dihapus");
     await driver.get("http://127.0.0.1:8000/draft-dokumen");
 
-    console.log("Dokumen berhasil dihapus.");
+    await driver.sleep(1000);
   } catch (error) {
-    console.error("Error during document deletion:", error);
+    console.error(`Terjadi kesalahan: ${error}`);
   } finally {
     await driver.quit();
   }

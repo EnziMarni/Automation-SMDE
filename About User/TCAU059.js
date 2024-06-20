@@ -22,6 +22,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 
     // Klik button back to home
     await driver.findElement(By.css("a.btn.btn-primary[href*='home']")).click();
+    await driver.sleep(2000);
     console.log("Navigasi kembali ke halaman utama berhasil!");
   } catch (error) {
     console.error("Terjadi kesalahan:", error);

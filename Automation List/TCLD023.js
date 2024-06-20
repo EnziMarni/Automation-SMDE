@@ -12,7 +12,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     // Akses halaman list dokumen
     await driver.get("http://127.0.0.1:8000/list-dokumen");
 
-    await driver.executeScript("arguments[0].click();", await driver.findElement(By.xpath("//table/tbody/tr[1]/td[9]/form/button/i")));
+    await driver.executeScript("arguments[0].click();", await driver.findElement(By.xpath("//table/tbody/tr[1]/td[10]/form/button/i")));
     await driver.sleep(1000);
   } finally {
     await driver.quit();

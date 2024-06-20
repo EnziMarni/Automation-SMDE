@@ -49,17 +49,17 @@ const path = require("path");
 
         // Isi formulir Edit Dokumen
         await driver.findElement(By.name("judul_dokumen")).clear();
-        await driver.findElement(By.name("judul_dokumen")).sendKeys("Judul Dokumen yang Diedit");
+        await driver.findElement(By.name("judul_dokumen")).sendKeys("Dokumen Internal");
 
         await driver.sleep(1000);
         await driver.findElement(By.name("deskripsi_dokumen")).clear();
-        await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Deskripsi Dokumen yang Diedit");
+        await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Deskripsi Internal");
 
         await driver.sleep(1000);
-        await driver.findElement(By.name("kategori_dokumen")).sendKeys("Dokumen Tujuan", Key.ENTER);
+        await driver.findElement(By.name("kategori_dokumen")).sendKeys("Dokumen Tata Kelola", Key.ENTER);
 
         await driver.sleep(1000);
-        await driver.findElement(By.name("validasi_dokumen")).sendKeys("Ketua Jurusan", Key.ENTER);
+        await driver.findElement(By.name("validasi_dokumen")).sendKeys("Direktur", Key.ENTER);
 
         await driver.sleep(1000);
         await driver.findElement(By.name("tahun_dokumen")).clear();
@@ -73,7 +73,7 @@ const path = require("path");
         await driver.sleep(1000);
         let tagsInput = await driver.findElement(By.id("tags"));
         await tagsInput.clear();
-        await tagsInput.sendKeys("edited_tag1, edited_tag2", Key.RETURN);
+        await tagsInput.sendKeys("edited_tag", Key.RETURN);
 
         await driver.sleep(1000);
         let updateButton = await driver.findElement(By.css("button[type='submit']"));

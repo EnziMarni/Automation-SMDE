@@ -19,7 +19,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
       await driver.sleep(1000);
     }
 
-    await searchByTitle("Dokumen");
+    await searchByTitle("Keuangan");
     await driver.sleep(1000);
     console.log("judul dokumen berhasil di cari");
   } finally {

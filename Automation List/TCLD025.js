@@ -22,7 +22,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     }
 
     // Memanggil fungsi filter dengan kategori tertentu
-    await filterByCategory("Dokumen Tata Kelola");
+    await filterByCategory("Dokumen Visi Misi");
     await driver.sleep(1000);
     console.log("dokumen berhasil di  filter");
   } finally {

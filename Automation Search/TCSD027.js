@@ -5,29 +5,35 @@ async function searchDocument() {
   let driver = await new Builder().forBrowser("chrome").build();
 
   try {
+    // Buka halaman login
     await driver.get("http://127.0.0.1:8000/login");
+
+    // Login
     await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
     await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
-    await driver.get("http://localhost:8000/list-dokumen");
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
+    console.log("Login berhasil!");
 
-    // Tunggu elemen input pencarian terlihat
-    let searchInput = await driver.wait(until.elementLocated(By.id("search")), 10000);
+    // Navigasi ke halaman list dokumen
+    await driver.get("http://127.0.0.1:8000/list-dokumen");
 
-    // kata kunci pencarian
-    await driver.sleep(1000);
-    await searchInput.sendKeys("tag");
+    await driver.wait(until.elementLocated(By.css("input#search")), 20000);
+
+    // Kata kunci pencarian
+    let query = "visi misi";
+
+    let searchInput = await driver.findElement(By.css("input#search"));
+    await searchInput.sendKeys(query, Key.RETURN);
 
     await driver.sleep(2000);
 
     let rows = await driver.findElements(By.css("#documentTableBody tr"));
 
-    for (let row of rows) {
-      let title = await row.findElement(By.css("td:nth-child(2)")).getText();
-      let tags = await row.findElement(By.css("td:nth-child(8)")).getText();
-      console.log("Search berhasil");
-    }
+    console.log("Search berhasil");
+  } catch (error) {
+    console.error(`Terjadi kesalahan: ${error}`);
   } finally {
     await driver.quit();
   }

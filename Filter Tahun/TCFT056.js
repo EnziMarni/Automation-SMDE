@@ -11,46 +11,38 @@ async function filterByYear() {
     await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
+    // Tunggu sampai halaman utama terbuka
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    console.log("Login berhasil!");
+
     // Buka halaman list dokumen
-    await driver.get("http://localhost:8000/list-dokumen");
+    await driver.get("http://127.0.0.1:8000/list-dokumen");
     await driver.sleep(1000);
+    console.log("Berhasil akses halaman list dokumen");
 
-    // Tunggu hingga dropdown filter tahun muncul dan dapat diklik
+    // Tunggu sampai elemen filter tahun muncul
     await driver.wait(until.elementLocated(By.id("yearFilter")), 10000);
-
-    // Temukan dropdown filter tahun
     let yearFilterDropdown = await driver.findElement(By.id("yearFilter"));
 
-    // Pilih opsi "Terbaru" dari dropdown filter tahun
-    await yearFilterDropdown.click();
-    let yearOptionNewest = await driver.findElement(By.css("option[value='newest']"));
-    await driver.sleep(2000);
-    await yearOptionNewest.click();
-    await driver.sleep(2000);
+    // Fungsi untuk memilih opsi di dropdown
+    async function selectYearFilter(value, description) {
+      let yearOption = await driver.findElement(By.css(`#yearFilter option[value='${value}']`));
+      await yearOption.click();
+      await driver.sleep(2000);
+      console.log(`Filter tahun ${description} berhasil dipilih.`);
+    }
 
-    console.log("Filter 'Terbaru' berhasil dipilih.");
+    // Pilih filter tahun terbaru
+    await selectYearFilter("newest", "terbaru");
 
-    // Pilih opsi "Terlama" dari dropdown filter tahun
-    await yearFilterDropdown.click();
-    await driver.sleep(2000);
-    let yearOptionOldest = await driver.findElement(By.css("option[value='oldest']"));
-    await yearOptionOldest.click();
-    await driver.sleep(2000);
+    // Pilih filter tahun terlama
+    await selectYearFilter("oldest", "terlama");
 
-    console.log("Filter 'Terlama' berhasil dipilih.");
-
-    // Kembali ke pilihan filter tahun (pilih opsi default "Tahun Dokumen")
-    await yearFilterDropdown.click();
-    await driver.sleep(2000);
-    let yearOptionAll = await driver.findElement(By.css("option[value='all']"));
-    await yearOptionAll.click();
-    await driver.sleep(2000);
-
-    console.log("Filter 'Tahun Dokumen' berhasil dipilih.");
+    // Kembali ke filter semua tahun
+    await selectYearFilter("all", "semua tahun");
   } catch (error) {
     console.error("Error during filtering by year:", error);
   } finally {
-    // Tutup browser
     await driver.quit();
   }
 }

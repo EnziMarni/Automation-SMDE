@@ -1,4 +1,4 @@
-const { Builder, By, Key, until, Select } = require("selenium-webdriver");
+const { Builder, By, Key, until } = require("selenium-webdriver");
 require("chromedriver");
 
 async function filterByYear() {
@@ -11,20 +11,21 @@ async function filterByYear() {
     await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
 
+    // Tunggu sampai halaman utama terbuka
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    console.log("Login berhasil!");
+
     // Buka halaman list dokumen
-    await driver.get("http://localhost:8000/list-dokumen");
+    await driver.get("http://127.0.0.1:8000/list-dokumen");
     await driver.sleep(1000);
+    console.log("Berhasil akses halaman list dokumen");
 
+    // Tunggu sampai elemen filter tahun muncul
     await driver.wait(until.elementLocated(By.id("yearFilter")), 10000);
-
     let yearFilterDropdown = await driver.findElement(By.id("yearFilter"));
 
-    // Klik dropdown filter tahun untuk menampilkan opsi
-    await yearFilterDropdown.click();
-    await driver.sleep(1000);
-
     // Pilih opsi tahun yang diinginkan
-    let yearOption = await driver.findElement(By.css("option[value='newest']"));
+    let yearOption = await driver.findElement(By.css("#yearFilter option[value='all']"));
     await yearOption.click();
     await driver.sleep(2000);
 

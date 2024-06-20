@@ -33,7 +33,11 @@ const path = require("path");
       await driver.sleep(1000);
 
       await driver.findElement(By.name("kategori_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER);
-      await driver.sleep(1000);
+      await driver.sleep(500);
+      for (let i = 0; i < 2; i++) {
+        await driver.findElement(By.name("kategori_dokumen")).sendKeys(Key.ARROW_DOWN);
+        await driver.sleep(500);
+      }
 
       await driver.findElement(By.name("validasi_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER);
       await driver.sleep(1000);
