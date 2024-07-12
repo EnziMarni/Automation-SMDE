@@ -21,8 +21,8 @@ async function testListRolePage() {
     // Tunggu hingga halaman beranda ditampilkan
     await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
 
-    // Navigasi ke halaman List jabatan
-    await driver.get("http://127.0.0.1:8000/jabatan-view");
+    // Navigasi ke halaman List Validasi Dokumen
+    await driver.get("http://127.0.0.1:8000/validasi-view");
     await driver.sleep(1000);
 
     console.log('Test berhasil: Halaman "List Role ditampilkan dengan benar');
