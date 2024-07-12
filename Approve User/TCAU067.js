@@ -1,0 +1,49 @@
+const { Builder, By, Key, until } = require("selenium-webdriver");
+require("chromedriver");
+
+async function cancelApproveStudent() {
+  let driver = await new Builder().forBrowser("chrome").build();
+
+  try {
+    await driver.get("http://127.0.0.1:8000/login");
+
+    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.sleep(1000);
+    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
+    await driver.sleep(1000);
+    console.log("Login berhasil!");
+
+    await driver.get("http://127.0.0.1:8000/list-user");
+    await driver.sleep(1000);
+
+    await driver.wait(until.elementLocated(By.css("table.table")), 10000);
+    await driver.sleep(1000);
+    console.log("Halaman list user berhasil dimuat");
+
+    // Cari baris tabel yang berisi user dengan jabatan Mahasiswa dan sudah disetujui
+    let rows = await driver.findElements(By.css("tbody tr"));
+    await driver.sleep(1000);
+    for (let row of rows) {
+      let jabatan = await row.findElement(By.css("td:nth-child(3)")).getText();
+      await driver.sleep(1000);
+      let approved = await row.findElement(By.css("td:nth-child(4)")).getText();
+      await driver.sleep(1000);
+
+      if (jabatan === "Mahasiswa" && approved === "Diizinkan") {
+        let cancelButton = await row.findElement(By.css("td:nth-child(5) button.btn-danger"));
+        await driver.sleep(1000);
+        await cancelButton.click();
+        console.log("User Mahasiswa berhasil dibatalkan persetujuannya");
+        break;
+      }
+    }
+  } catch (error) {
+    console.error("Error during canceling approval for student:", error);
+  } finally {
+    await driver.quit();
+  }
+}
+
+cancelApproveStudent();

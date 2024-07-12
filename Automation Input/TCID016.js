@@ -1,14 +1,14 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const path = require("path");
 
-(async function example() {
+(async function input() {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     await driver.get("http://127.0.0.1:8000/login");
 
-    await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
+    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
     await driver.sleep(2000);
-    await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
     console.log("Login berhasil!");
 

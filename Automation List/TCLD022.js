@@ -1,21 +1,21 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 const path = require("path");
 
-(async function editDocument() {
+(async function list() {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     // Login ke aplikasi
     await driver.get("http://127.0.0.1:8000/login");
-    await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
+    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
     await driver.sleep(1000);
-    await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     // Tunggu sampai halaman home
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
     console.log("Login berhasil!");
 
     // Navigasi ke halaman List Dokumen
-    await driver.findElement(By.id("v-pills-messages-tab")).click();
+    await driver.findElement(By.id("v-pills-list-dokumen-user-tab")).click();
     console.log("Navigasi ke halaman List Dokumen");
 
     await driver.wait(until.elementLocated(By.css("h3.judul")), 30000);
@@ -44,7 +44,7 @@ const path = require("path");
       let editPageTitle = await driver.findElement(By.css("h3.judul")).getText();
       console.log("Judul halaman edit:", editPageTitle);
 
-      if (editPageTitle === "UPDATE DOKUMEN") {
+      if (editPageTitle === "EDIT DOKUMEN") {
         console.log("Berhasil mengakses halaman Edit Dokumen!");
 
         console.log("Berhasil akses halaman edit dokumen");

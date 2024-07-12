@@ -10,9 +10,9 @@ async function unarchiveDocument() {
     await driver.get("http://127.0.0.1:8000/login");
 
     // Login
-    await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
+    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
     await driver.sleep(1000);
-    await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
     console.log("Login berhasil!");
@@ -23,11 +23,11 @@ async function unarchiveDocument() {
     console.log("Berhasil akses halaman draft");
 
     // Tunggu sampai elemen tabel ada
-    await driver.wait(until.elementLocated(By.id("documentTableBody")), 10000);
+    await driver.wait(until.elementLocated(By.css("tbody")), 10000);
     console.log("Table body located");
 
     // Tunggu sampai baris pertama tabel muncul
-    await driver.wait(until.elementLocated(By.css("#documentTableBody tr:first-child")), 10000);
+    await driver.wait(until.elementLocated(By.css("tbody tr:first-child")), 10000);
     console.log("First row located");
 
     // Ambil screenshot untuk memastikan halaman sudah sesuai
@@ -38,11 +38,11 @@ async function unarchiveDocument() {
     // Coba temukan tombol unarchive dengan selector yang lebih spesifik
     let unarchiveButton;
     try {
-      unarchiveButton = await driver.findElement(By.css("#documentTableBody tr:first-child form[action*='unarchive'] button[type='submit']"));
+      unarchiveButton = await driver.findElement(By.css("tbody tr:first-child form[action*='unarchive'] button[type='submit']"));
       console.log("Unarchive button located");
     } catch (error) {
       console.log("Unarchive button not found, trying alternative selector");
-      unarchiveButton = await driver.findElement(By.css("#documentTableBody tr:first-child form[action*='unarchive'] button"));
+      unarchiveButton = await driver.findElement(By.css("tbody tr:first-child form[action*='unarchive'] button"));
     }
 
     // Scroll ke tombol unarchive

@@ -1,18 +1,23 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 
-(async function example() {
+(async function list() {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     // Login
     await driver.get("http://127.0.0.1:8000/login");
-    await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
-    await driver.sleep(1000);
-    await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
+    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    // Akses halaman list dokumen
-    await driver.get("http://127.0.0.1:8000/list-dokumen");
+    // Wait for the page to load after login
+    await driver.wait(until.urlContains("home"), 5000);
 
-    await driver.executeScript("arguments[0].click();", await driver.findElement(By.xpath("//table/tbody/tr[1]/td[10]/form/button/i")));
+    // Access the document list page
+    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
+    await driver.wait(until.elementLocated(By.xpath("//table/tbody/tr[1]/td[11]/form/button/i")), 5000);
+
+    // Click the delete icon
+    let deleteButton = await driver.findElement(By.xpath("//table/tbody/tr[1]/td[11]/form/button/i"));
+    await driver.executeScript("arguments[0].click();", deleteButton);
     await driver.sleep(1000);
   } finally {
     await driver.quit();

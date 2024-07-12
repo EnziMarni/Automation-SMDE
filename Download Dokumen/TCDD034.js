@@ -9,9 +9,9 @@ async function downloadDocument() {
     await driver.get("http://127.0.0.1:8000/login");
 
     // Login
-    await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
+    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
     await driver.sleep(1000);
-    await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
     console.log("Login berhasil!");

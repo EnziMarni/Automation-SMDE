@@ -9,9 +9,9 @@ async function searchDocument() {
     await driver.get("http://127.0.0.1:8000/login");
 
     // Login
-    await driver.findElement(By.id("email")).sendKeys("superuser@example.com");
+    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
     await driver.sleep(1000);
-    await driver.findElement(By.id("password")).sendKeys("superuser", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
     console.log("Login berhasil!");
@@ -23,13 +23,16 @@ async function searchDocument() {
 
     // Kata kunci pencarian
     let query = "/Keuangan";
+    await driver.sleep(3000);
 
     let searchInput = await driver.findElement(By.css("input#search"));
+    await driver.sleep(3000);
     await searchInput.sendKeys(query, Key.RETURN);
 
     await driver.sleep(2000);
 
     let rows = await driver.findElements(By.css("#documentTableBody tr"));
+    await driver.sleep(3000);
 
     console.log("Search berhasil");
   } catch (error) {
