@@ -10,16 +10,16 @@ async function deleteDocument() {
 
     // Login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
     console.log("Login berhasil!");
 
     // Navigasi ke halaman list dokumen
     await driver.get("http://127.0.0.1:8000/list-dokumen-user");
 
-    await driver.wait(until.elementLocated(By.css("#documentTableBody tr")), 20000);
+    await driver.wait(until.elementLocated(By.css("#documentTableBody tr")));
 
     // Ambil baris pertama dari tabel dokumen
     let firstRow = await driver.findElement(By.css("#documentTableBody tr:first-child"));
@@ -27,24 +27,20 @@ async function deleteDocument() {
     await driver.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", firstRow);
 
     // Tunggu elemen terlihat
-    await driver.wait(until.elementIsVisible(firstRow), 2000);
+    await driver.wait(until.elementIsVisible(firstRow));
 
     // Klik tombol hapus di baris pertama
     let deleteButton = await firstRow.findElement(By.css('form button[type="submit"]'));
     await driver.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'center'});", deleteButton);
     await driver.sleep(1000);
     await deleteButton.click();
-    await driver.sleep(1000);
 
     // Tunggu sampai konfirmasi muncul dan terima konfirmasi
     await driver.wait(until.alertIsPresent(), 2000);
     await driver.switchTo().alert().accept();
-    await driver.sleep(1000);
 
     console.log("Dokumen berhasil dihapus");
     await driver.get("http://127.0.0.1:8000/draft-dokumen");
-
-    await driver.sleep(1000);
   } catch (error) {
     console.error(`Terjadi kesalahan: ${error}`);
   } finally {

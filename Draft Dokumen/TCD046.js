@@ -11,29 +11,24 @@ async function unarchiveDocument() {
 
     // Login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
     console.log("Login berhasil!");
 
     // Akses halaman draft-dokumen
     await driver.get("http://127.0.0.1:8000/draft-dokumen");
-    await driver.sleep(1000);
+
     console.log("Berhasil akses halaman draft");
 
     // Tunggu sampai elemen tabel ada
-    await driver.wait(until.elementLocated(By.css("tbody")), 10000);
+    await driver.wait(until.elementLocated(By.css("tbody")));
     console.log("Table body located");
 
     // Tunggu sampai baris pertama tabel muncul
-    await driver.wait(until.elementLocated(By.css("tbody tr:first-child")), 10000);
+    await driver.wait(until.elementLocated(By.css("tbody tr:first-child")));
     console.log("First row located");
-
-    // Ambil screenshot untuk memastikan halaman sudah sesuai
-    let image = await driver.takeScreenshot();
-    fs.writeFileSync("screenshot.png", image, "base64");
-    console.log("Screenshot taken");
 
     // Coba temukan tombol unarchive dengan selector yang lebih spesifik
     let unarchiveButton;
@@ -47,7 +42,6 @@ async function unarchiveDocument() {
 
     // Scroll ke tombol unarchive
     await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });", unarchiveButton);
-    await driver.sleep(1000);
 
     // Klik tombol unarchive
     console.log("Mengklik tombol unarchive...");

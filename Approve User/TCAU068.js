@@ -9,60 +9,44 @@ async function editUser() {
     await driver.get("http://127.0.0.1:8000/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("email")).sendKeys("kaprodi@example.com");
+    await driver.findElement(By.id("password")).sendKeys("kaprodi123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
-    await driver.sleep(1000);
+    // Tunggu hingga login berhasil dan diarahkan ke halaman home
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+
     console.log("Login berhasil!");
 
+    // Buka halaman daftar pengguna
     await driver.get("http://127.0.0.1:8000/list-user");
-    await driver.sleep(1000);
 
-    await driver.wait(until.elementLocated(By.css("table.table")), 10000);
-    await driver.sleep(1000);
+    await driver.wait(until.elementLocated(By.css("table.table")));
+
     console.log("Halaman list user berhasil dimuat");
 
-    // Cari baris tabel yang berisi user dengan jabatan Mahasiswa
+    // Cari baris tabel pertama yang berisi pengguna
     let rows = await driver.findElements(By.css("tbody tr"));
-    await driver.sleep(1000);
-    for (let row of rows) {
-      let jabatan = await row.findElement(By.css("td:nth-child(3)")).getText();
+    if (rows.length > 0) {
+      // Klik tombol edit pada pengguna pertama
+      let editButton = await rows[0].findElement(By.css("td:nth-child(6) a.btn-primary"));
+      await editButton.click();
+
+      // Tunggu hingga halaman edit dimuat
+      await driver.wait(until.elementLocated(By.css("form")));
+
+      // Edit data pengguna (misalnya mengubah nama)
+      let nameField = await driver.findElement(By.id("name"));
+      await nameField.clear();
+      await nameField.sendKeys("Nama Pengguna Baru");
+
+      // Simpan perubahan
+      let saveButton = await driver.findElement(By.css("button.btn-primary"));
       await driver.sleep(1000);
+      await saveButton.click();
 
-      if (jabatan === "Mahasiswa") {
-        let editButton = await row.findElement(By.css("td:nth-child(5) a.btn-primary"));
-        await driver.sleep(1000);
-        await editButton.click();
-        console.log("Berhasil mengakses halaman edit pengguna");
-
-        // Tunggu sampai halaman edit dimuat
-        await driver.wait(until.elementLocated(By.id("name")), 10000);
-        await driver.sleep(1000);
-
-        // Edit nama pengguna
-        let nameInput = await driver.findElement(By.id("name"));
-        await nameInput.clear();
-        await driver.sleep(1000);
-        await nameInput.sendKeys("Nama Mahasiswa");
-
-        // Edit email pengguna
-        let emailInput = await driver.findElement(By.id("email"));
-        await emailInput.clear();
-        await driver.sleep(1000);
-        await emailInput.sendKeys("mahasiswa_edit@example.com");
-
-        // Edit jabatan pengguna
-        let jabatanSelect = await driver.findElement(By.id("jabatan"));
-        await jabatanSelect.sendKeys("Mahasiswa", Key.ENTER);
-        await driver.sleep(1000);
-
-        // Simpan perubahan
-        await driver.findElement(By.css("button.btn-primary")).click();
-        console.log("Berhasil mengedit pengguna");
-        break;
-      }
+      console.log("User berhasil diedit");
+    } else {
+      console.log("Tidak ada pengguna untuk diedit");
     }
   } catch (error) {
     console.error("Error during editing user:", error);

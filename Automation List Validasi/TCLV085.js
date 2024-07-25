@@ -58,4 +58,4 @@ async function deleteCategory(rowIndex) {
 }
 
 // Menghapus baris terakhir yang ada (baris ke-18)
-deleteCategory(3);
+deleteCategory(7);

@@ -1,94 +1,110 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
-const path = require("path");
 
-(async function editDocument() {
+async function editDocument() {
   let driver = await new Builder().forBrowser("chrome").build();
+
   try {
-    // Login ke aplikasi
+    // Buka halaman login
     await driver.get("http://127.0.0.1:8000/login");
+
+    // Isi formulir login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    // Tunggu sampai halaman home
-    await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
+
     console.log("Login berhasil!");
 
-    // Navigasi ke halaman List Dokumen
-    await driver.findElement(By.id("v-pills-messages-tab")).click();
-    console.log("Navigasi ke halaman List Dokumen");
-
-    await driver.wait(until.elementLocated(By.css("h3.judul")), 30000);
-    console.log("Elemen 'h3.judul' ditemukan di halaman List Dokumen");
-
-    let listPageTitle = await driver.findElement(By.css("h3.judul")).getText();
-    console.log("Judul halaman:", listPageTitle);
-
-    if (listPageTitle.toLowerCase() === "list dokumen") {
-      console.log("Berhasil mengakses halaman List Dokumen!");
-
-      // Scroll ke kanan untuk menampilkan icon edit
-      await driver.executeScript("window.scrollBy(10000,0)");
-      console.log("Scroll ke kanan untuk menampilkan ikon edit");
-
-      await driver.sleep(2000);
-
-      // Pilih dokumen pertama di daftar dan klik tombol edit
-      let editButton = await driver.findElement(By.css("a[href*='edit'] .fa-edit"));
-      await driver.executeScript("arguments[0].scrollIntoView();", editButton);
-      await editButton.click();
-      console.log("Klik tombol edit pada dokumen pertama di daftar");
-
-      await driver.sleep(2000);
-
-      let editPageTitle = await driver.findElement(By.css("h3.judul")).getText();
-      console.log("Judul halaman edit:", editPageTitle);
-
-      if (editPageTitle === "UPDATE DOKUMEN") {
-        console.log("Berhasil mengakses halaman Edit Dokumen!");
-
-        // Isi formulir Edit Dokumen
-        await driver.findElement(By.name("judul_dokumen")).clear();
-        await driver.findElement(By.name("judul_dokumen")).sendKeys("Dokumen Internal");
-
-        await driver.sleep(1000);
-        await driver.findElement(By.name("deskripsi_dokumen")).clear();
-        await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Deskripsi Internal");
-
-        await driver.sleep(1000);
-        await driver.findElement(By.name("kategori_dokumen")).sendKeys("Dokumen Tata Kelola", Key.ENTER);
-
-        await driver.sleep(1000);
-        await driver.findElement(By.name("validasi_dokumen")).sendKeys("Direktur", Key.ENTER);
-
-        await driver.sleep(1000);
-        await driver.findElement(By.name("tahun_dokumen")).clear();
-        await driver.findElement(By.name("tahun_dokumen")).sendKeys("2024");
-
-        await driver.sleep(1000);
-        let filePath = path.resolve("D:\\Automation_SMDE\\Testing Javascript\\Automation Home\\Kartu Pendaftaran DTS.pdf");
-        let fileInput = await driver.findElement(By.id("editFile"));
-        await fileInput.sendKeys(filePath);
-
-        await driver.sleep(1000);
-        let tagsInput = await driver.findElement(By.id("tags"));
-        await tagsInput.clear();
-        await tagsInput.sendKeys("edited_tag", Key.RETURN);
-
-        await driver.sleep(1000);
-        let updateButton = await driver.findElement(By.css("button[type='submit']"));
-        await driver.executeScript("arguments[0].click();", updateButton);
-
-        console.log("Dokumen berhasil diedit!");
-      } else {
-        throw new Error("Tidak berhasil mengakses halaman Edit Dokumen!");
-      }
-    } else {
-      throw new Error("Tidak berhasil mengakses halaman List Dokumen!");
+    // Cek apakah modal notifikasi muncul dan tutup
+    try {
+      let modalCloseButton = await driver.findElement(By.css(".modal.show .btn-close"));
+      await modalCloseButton.click();
+      console.log("Modal notifikasi ditutup!");
+    } catch (error) {
+      console.log("Modal notifikasi tidak ditemukan, melanjutkan proses...");
     }
+
+    // Tunggu halaman List Dokumen Saya dimuat
+    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
+
+    // Scroll ke kanan untuk menampilkan icon edit
+    await driver.executeScript("window.scrollBy(10000,0)");
+    console.log("Scroll ke kanan untuk menampilkan ikon edit");
+
+    // Penundaan sebelum mengklik tombol edit
+    await driver.sleep(1000);
+
+    // Pilih dokumen pertama di daftar dan klik tombol edit
+    let editButton = await driver.findElement(By.css("a[href*='edit'] .fa-edit"));
+    await driver.executeScript("arguments[0].scrollIntoView();", editButton);
+    await editButton.click();
+    console.log("Klik tombol edit pada dokumen pertama di daftar");
+
+    // Isi formulir edit dokumen
+    await driver.findElement(By.name("judul_dokumen")).clear();
+    await driver.findElement(By.name("judul_dokumen")).sendKeys("Updated Judul Dokumen");
+    await driver.sleep(500);
+
+    await driver.findElement(By.name("deskripsi_dokumen")).clear();
+    await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Updated Deskripsi Dokumen");
+    await driver.sleep(500);
+
+    // Pilih kategori
+    await driver.findElement(By.id("kategoriDokumen")).click();
+    await driver.findElement(By.css('#kategoriDokumen option[value="Dokumen Keuangan"]')).click();
+    await driver.sleep(500);
+
+    // Pilih validasi
+    await driver.findElement(By.id("validasiDokumen")).click();
+    await driver.findElement(By.css('#validasiDokumen option[value="Ketua Jurusan"]')).click();
+    await driver.sleep(500);
+
+    // Set tahun dokumen
+    await driver.findElement(By.name("tahun_dokumen")).clear();
+    await driver.findElement(By.name("tahun_dokumen")).sendKeys("2023");
+    await driver.sleep(500);
+
+    // Cek apakah dokumen adalah file atau link
+    let isLink = false;
+    try {
+      await driver.findElement(By.name("dokumen_link"));
+      isLink = true;
+    } catch (err) {}
+
+    if (isLink) {
+      // Isi field untuk link
+      await driver.findElement(By.name("dokumen_link")).clear();
+      await driver.findElement(By.name("dokumen_link")).sendKeys("https://github.com/EnziMarni/TA-FINAL-BANGET");
+    } else {
+      // Unggah file
+      let fileInput = await driver.findElement(By.name("edit_dokumen_file"));
+      fileInput.sendKeys("D:\\Automation_SMDE\\Testing Javascript\\Automation Home\\Dokumen Internal.pdf");
+    }
+    await driver.sleep(1000);
+
+    // Klik checkbox "All"
+    let checkboxAll = await driver.findElement(By.css('input.form-check-input[value="Ketua Jurusan"]'));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", checkboxAll);
+    await driver.sleep(1000);
+    await checkboxAll.click();
+    console.log("Checkbox berhasil dichecklist!");
+    await driver.sleep(1000);
+
+    // Tambahkan tags
+    await driver.findElement(By.name("tags")).clear();
+    await driver.findElement(By.name("tags")).sendKeys("tag1,tag2");
+    await driver.sleep(1000);
+
+    // Submit formulir
+    await driver.findElement(By.css('button[type="submit"]')).click();
+
+    console.log("Dokumen berhasil diperbarui");
   } catch (error) {
-    console.error("Login gagal atau navigasi gagal:", error);
+    console.error("Terjadi kesalahan:", error);
   } finally {
     await driver.quit();
   }
-})();
+}
+
+editDocument();

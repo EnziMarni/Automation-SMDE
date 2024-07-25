@@ -10,7 +10,7 @@ async function cancelDeleteDocument() {
 
     // Login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     // Tunggu sampai berhasil login dan halaman home terbuka
@@ -42,7 +42,6 @@ async function cancelDeleteDocument() {
     // Tunggu sampai konfirmasi muncul dan batalkan konfirmasi
     await driver.wait(until.alertIsPresent(), 2000);
     await driver.switchTo().alert().dismiss();
-    await driver.sleep(1000);
 
     console.log("Penghapusan dokumen dibatalkan");
   } catch (error) {

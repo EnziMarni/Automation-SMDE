@@ -10,7 +10,7 @@ async function deleteDocument() {
 
     // Login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     // Tunggu sampai berhasil login dan halaman home terbuka

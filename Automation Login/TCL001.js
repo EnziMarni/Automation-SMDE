@@ -7,11 +7,10 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 
     // Isi formulir login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     // Tunggu sampai halaman masuk
-    await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
+    await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"));
     console.log("Login berhasil!");
   } catch (error) {
     console.error("Login gagal:", error);

@@ -1,5 +1,4 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
-const path = require("path");
 
 (async function list() {
   let driver = await new Builder().forBrowser("chrome").build();
@@ -7,30 +6,32 @@ const path = require("path");
     // Login ke aplikasi
     await driver.get("http://127.0.0.1:8000/login");
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     // Tunggu sampai halaman home
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
     console.log("Login berhasil!");
 
-    // Navigasi ke halaman List Dokumen
-    await driver.findElement(By.id("v-pills-list-dokumen-user-tab")).click();
-    console.log("Navigasi ke halaman List Dokumen");
+    // Akses halaman list dokumen
+    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
 
-    await driver.wait(until.elementLocated(By.css("h3.judul")), 30000);
-    console.log("Elemen 'h3.judul' ditemukan di halaman List Dokumen");
+    // Tunggu sampai elemen 'h3' terlihat
+    await driver.wait(until.elementLocated(By.tagName("h3")));
+    console.log("Elemen 'h3' ditemukan di halaman List Dokumen");
 
-    let listPageTitle = await driver.findElement(By.css("h3.judul")).getText();
+    let listPageTitle = await driver.findElement(By.tagName("h3")).getText();
     console.log("Judul halaman:", listPageTitle);
 
     if (listPageTitle.toLowerCase() === "list dokumen") {
       console.log("Berhasil mengakses halaman List Dokumen!");
 
-      await driver.executeScript("window.scrollBy(10000,0)");
+      // Scroll ke kanan untuk menampilkan ikon edit
+      await driver.executeScript("window.scrollBy(0, 1000)");
+      await driver.executeScript("window.scrollBy(1000, 0)");
       console.log("Scroll ke kanan untuk menampilkan ikon edit");
 
-      await driver.sleep(5000);
+      await driver.sleep(1000);
 
       // Pilih dokumen pertama di daftar dan klik tombol edit
       let editButton = await driver.findElement(By.css("a[href*='edit'] .fa-edit"));
@@ -39,15 +40,14 @@ const path = require("path");
       await driver.executeScript("arguments[0].click();", editButton);
       console.log("Klik tombol edit pada dokumen pertama di daftar");
 
-      await driver.sleep(2000);
+      await driver.sleep(1000);
 
-      let editPageTitle = await driver.findElement(By.css("h3.judul")).getText();
+      // Get the title of the edit page
+      let editPageTitle = await driver.findElement(By.tagName("h3")).getText();
       console.log("Judul halaman edit:", editPageTitle);
 
-      if (editPageTitle === "EDIT DOKUMEN") {
+      if (editPageTitle === "EDIT DOKUMEN FILE" || editPageTitle === "EDIT DOKUMEN LINK") {
         console.log("Berhasil mengakses halaman Edit Dokumen!");
-
-        console.log("Berhasil akses halaman edit dokumen");
       } else {
         throw new Error("Tidak berhasil mengakses halaman Edit Dokumen!");
       }

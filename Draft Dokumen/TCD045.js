@@ -12,19 +12,18 @@ async function deleteDocument() {
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
     console.log("Login berhasil!");
 
     // Akses halaman draft-dokumen
     await driver.get("http://127.0.0.1:8000/draft-dokumen");
-    await driver.wait(until.elementLocated(By.css("table.table tbody tr")), 10000);
+    await driver.wait(until.elementLocated(By.css("table.table tbody tr")));
     console.log("Berhasil akses halaman draft");
 
     let deleteButton = await driver.findElement(By.css("table.table tbody tr:first-child button[type='submit']"));
 
     // Scroll ke tombol delete
     await driver.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", deleteButton);
-    await driver.sleep(1000);
 
     // Klik tombol delete
     console.log("Mengklik tombol delete...");
@@ -33,7 +32,6 @@ async function deleteDocument() {
     // Menunggu dan menerima alert konfirmasi
     await driver.wait(until.alertIsPresent(), 5000);
     await driver.switchTo().alert().accept();
-    await driver.sleep(1000);
 
     console.log("Dokumen berhasil dihapus dari draft.");
   } catch (error) {

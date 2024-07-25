@@ -1,53 +1,39 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 require("chromedriver");
 
-async function approveAllMahasiswa() {
+async function clickApproveAllButton() {
   let driver = await new Builder().forBrowser("chrome").build();
 
   try {
     // Buka halaman login
-    await driver.get("http://localhost:8000/login");
+    await driver.get("http://127.0.0.1:8000/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("email")).sendKeys("kaprodi@example.com");
+    await driver.findElement(By.id("password")).sendKeys("kaprodi123", Key.RETURN);
 
-    // Tunggu sampai halaman home dimuat
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    // Tunggu hingga login berhasil dan diarahkan ke halaman home
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
 
-    // Buka halaman list user
-    await driver.get("http://localhost:8000/list-user");
+    console.log("Login berhasil!");
 
-    // Tunggu sampai tabel user dimuat
-    await driver.wait(until.elementLocated(By.css("table.table")), 10000);
+    // Buka halaman daftar pengguna
+    await driver.get("http://127.0.0.1:8000/list-user");
 
-    // Cari baris tabel yang berisi user dengan jabatan Mahasiswa dan belum disetujui
-    let rows = await driver.findElements(By.css("tbody tr"));
-    for (let i = 0; i < rows.length; i++) {
-      let jabatan = await rows[i].findElement(By.css("td:nth-child(3)")).getText();
-      let approved = await rows[i].findElement(By.css("td:nth-child(4)")).getText();
+    await driver.wait(until.elementLocated(By.css("table.table")));
 
-      // Periksa jika pengguna adalah Mahasiswa dan belum diapprove
-      if (jabatan === "Mahasiswa" && approved === "Tidak Diizinkan") {
-        let approveButton = await rows[i].findElement(By.css("form button.btn-success"));
-        await approveButton.click();
-        console.log("User Mahasiswa berhasil di-approve");
+    console.log("Halaman list user berhasil dimuat");
 
-        // Tunggu sebentar agar halaman merespons
-        await driver.sleep(2000);
+    // Cari dan klik tombol 'Approve All' jika ada
+    let approveAllButton = await driver.findElement(By.xpath("//button[contains(text(), 'Approve All')]"));
+    await approveAllButton.click();
 
-        // Refresh kembali elemen untuk menghindari StaleElementReferenceError
-        rows = await driver.findElements(By.css("tbody tr"));
-      }
-    }
-
-    console.log("Semua Mahasiswa yang belum diapprove berhasil di-approve");
+    console.log("Tombol 'Approve All' berhasil diklik");
   } catch (error) {
-    console.error("Error during approving all Mahasiswa:", error);
+    console.error("Error during clicking 'Approve All' button:", error);
   } finally {
-    // Tutup browser
     await driver.quit();
   }
 }
 
-approveAllMahasiswa();
+clickApproveAllButton();

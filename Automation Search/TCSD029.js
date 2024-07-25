@@ -1,42 +1,30 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
-require("chromedriver");
 
-async function searchDocument() {
+async function searchDocuments() {
   let driver = await new Builder().forBrowser("chrome").build();
-
   try {
-    // Buka halaman login
     await driver.get("http://127.0.0.1:8000/login");
 
-    // Login
+    // Isi formulir login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
     console.log("Login berhasil!");
 
     // Navigasi ke halaman list dokumen
     await driver.get("http://127.0.0.1:8000/list-dokumen");
 
-    await driver.wait(until.elementLocated(By.css("input#search")), 20000);
+    // Perform the search
+    await driver.findElement(By.id("search")).sendKeys("DOKUMEN");
+    await driver.findElement(By.id("searchIcon")).click();
 
-    // Kata kunci pencarian
-    let query = "VISI MISI";
-
-    let searchInput = await driver.findElement(By.css("input#search"));
-    await searchInput.sendKeys(query, Key.RETURN);
-
-    await driver.sleep(2000);
-
-    let rows = await driver.findElements(By.css("#documentTableBody tr"));
-
-    console.log("Search berhasil");
-  } catch (error) {
-    console.error(`Terjadi kesalahan: ${error}`);
+    console.log("Berhasil Search Dokumen");
   } finally {
+    // Quit the driver
     await driver.quit();
   }
 }
 
-searchDocument();
+searchDocuments();

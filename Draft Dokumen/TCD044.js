@@ -10,16 +10,15 @@ async function deleteDocument() {
 
     // Login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     // Tunggu sampai berhasil login dan halaman home terbuka
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
     console.log("Login berhasil!");
 
     await driver.get("http://127.0.0.1:8000/draft-dokumen");
 
-    await driver.sleep(1000);
     console.log("berhasil akses halaman draft");
   } catch (error) {
     console.error(`Terjadi kesalahan: ${error}`);

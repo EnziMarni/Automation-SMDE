@@ -6,7 +6,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     // Login
     await driver.get("http://127.0.0.1:8000/login");
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     // Akses halaman list dokumen
@@ -15,12 +15,10 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     async function searchByTitle(query) {
       // Mendapatkan nilai input pencarian
       await driver.findElement(By.id("search")).sendKeys(query);
-
-      await driver.sleep(1000);
     }
 
-    await searchByTitle("Keuangan");
-    await driver.sleep(1000);
+    await searchByTitle("Contoh");
+
     console.log("judul dokumen berhasil di cari");
   } finally {
     await driver.quit();

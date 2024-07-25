@@ -1,49 +1,49 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
 require("chromedriver");
 
-async function cancelApproveStudent() {
+async function cancelApprovedUser() {
   let driver = await new Builder().forBrowser("chrome").build();
 
   try {
+    // Buka halaman login
     await driver.get("http://127.0.0.1:8000/login");
 
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    // Isi formulir login
+    await driver.findElement(By.id("email")).sendKeys("kaprodi@example.com");
     await driver.sleep(1000);
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("kaprodi123", Key.RETURN);
 
+    // Tunggu hingga login berhasil dan diarahkan ke halaman home
     await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
-    await driver.sleep(1000);
+
     console.log("Login berhasil!");
 
+    // Buka halaman daftar pengguna
     await driver.get("http://127.0.0.1:8000/list-user");
-    await driver.sleep(1000);
 
-    await driver.wait(until.elementLocated(By.css("table.table")), 10000);
-    await driver.sleep(1000);
+    await driver.wait(until.elementLocated(By.css("table.table")));
+
     console.log("Halaman list user berhasil dimuat");
 
-    // Cari baris tabel yang berisi user dengan jabatan Mahasiswa dan sudah disetujui
+    // Cari baris tabel yang berisi pengguna yang sudah disetujui
     let rows = await driver.findElements(By.css("tbody tr"));
-    await driver.sleep(1000);
-    for (let row of rows) {
-      let jabatan = await row.findElement(By.css("td:nth-child(3)")).getText();
-      await driver.sleep(1000);
-      let approved = await row.findElement(By.css("td:nth-child(4)")).getText();
-      await driver.sleep(1000);
 
-      if (jabatan === "Mahasiswa" && approved === "Diizinkan") {
-        let cancelButton = await row.findElement(By.css("td:nth-child(5) button.btn-danger"));
-        await driver.sleep(1000);
+    for (let row of rows) {
+      let approved = await row.findElement(By.css("td:nth-child(5)")).getText();
+
+      if (approved === "Diizinkan") {
+        let cancelButton = await row.findElement(By.css("td:nth-child(6) button.btn-danger"));
         await cancelButton.click();
-        console.log("User Mahasiswa berhasil dibatalkan persetujuannya");
+
+        console.log("User berhasil di-cancel");
         break;
       }
     }
   } catch (error) {
-    console.error("Error during canceling approval for student:", error);
+    console.error("Error during cancelling approved user:", error);
   } finally {
     await driver.quit();
   }
 }
 
-cancelApproveStudent();
+cancelApprovedUser();

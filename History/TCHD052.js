@@ -10,15 +10,15 @@ async function viewDocumentHistory() {
 
     // Login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
     console.log("Login berhasil!");
 
     // Akses halaman list dokumen
     await driver.get("http://127.0.0.1:8000/list-dokumen");
-    await driver.sleep(1000);
+
     console.log("Berhasil akses halaman list dokumen");
 
     // Tunggu hingga elemen documentTableBody muncul
@@ -53,22 +53,22 @@ async function viewDocumentHistory() {
 
     // Verifikasi modal riwayat ditampilkan
     let historyModal = await driver.findElement(By.id("historyModal"));
-    await driver.wait(until.elementIsVisible(historyModal), 10000);
+    await driver.wait(until.elementIsVisible(historyModal), 1000);
     console.log("Modal riwayat berhasil ditampilkan");
 
-    await driver.wait(until.elementLocated(By.css("button.btn.btn-secondary[data-bs-dismiss='modal']")), 10000);
+    await driver.wait(until.elementLocated(By.css("button.btn.btn-secondary[data-bs-dismiss='modal']")), 1000);
 
     let closeButton = await driver.findElement(By.css("button.btn.btn-secondary[data-bs-dismiss='modal']"));
 
     await closeButton.click();
-    await driver.sleep(2000);
+    await driver.sleep(1000);
 
-    await driver.wait(until.elementLocated(By.css("a.btn.btn-primary[href*='list-dokumen']")), 10000);
+    await driver.wait(until.elementLocated(By.css("a.btn.btn-primary[href*='list-dokumen']")), 1000);
 
     let backToListButton = await driver.findElement(By.css("a.btn.btn-primary[href*='list-dokumen']"));
 
     await backToListButton.click();
-    await driver.sleep(2000);
+    await driver.sleep(1000);
 
     console.log("View icon history berhasil, ikon diklik, tombol Lihat Riwayat diklik, modal ditutup, dan kembali ke daftar dokumen.");
   } catch (error) {

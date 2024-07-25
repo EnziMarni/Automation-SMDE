@@ -9,35 +9,33 @@ async function approveStudent() {
     await driver.get("http://127.0.0.1:8000/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("kaprodi@example.com");
     await driver.sleep(1000);
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("kaprodi123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
-    await driver.sleep(1000);
+    // Tunggu hingga login berhasil dan diarahkan ke halaman home
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+
     console.log("Login berhasil!");
 
+    // Buka halaman daftar pengguna
     await driver.get("http://127.0.0.1:8000/list-user");
-    await driver.sleep(1000);
 
-    await driver.wait(until.elementLocated(By.css("table.table")), 10000);
-    await driver.sleep(1000);
+    await driver.wait(until.elementLocated(By.css("table.table")));
+
     console.log("Halaman list user berhasil dimuat");
 
-    // Cari baris tabel yang berisi user dengan jabatan Mahasiswa dan belum disetujui
+    // Cari baris tabel yang berisi pengguna yang belum disetujui
     let rows = await driver.findElements(By.css("tbody tr"));
-    await driver.sleep(1000);
-    for (let row of rows) {
-      let jabatan = await row.findElement(By.css("td:nth-child(3)")).getText();
-      await driver.sleep(1000);
-      let approved = await row.findElement(By.css("td:nth-child(4)")).getText();
-      await driver.sleep(1000);
 
-      if (jabatan === "Mahasiswa" && approved === "Tidak Diizinkan") {
-        let approveButton = await row.findElement(By.css("td:nth-child(5) button.btn-success"));
-        await driver.sleep(1000);
+    for (let row of rows) {
+      let approved = await row.findElement(By.css("td:nth-child(5)")).getText();
+
+      if (approved === "Tidak Diizinkan") {
+        let approveButton = await row.findElement(By.css("td:nth-child(6) button.btn-success"));
         await approveButton.click();
-        console.log("User Mahasiswa berhasil di-approve");
+
+        console.log("User berhasil di-approve");
         break;
       }
     }

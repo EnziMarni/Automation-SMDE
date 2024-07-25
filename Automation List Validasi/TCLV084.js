@@ -74,4 +74,4 @@ async function editValidation(rowIndex, newName) {
 }
 
 // Mengedit validasi pada baris ke-4 (indeks 3, dimulai dari 0)
-editValidation(3, "Nama Validasi Baru di edit");
+editValidation(7, "Nama Validasi Baru di edit");

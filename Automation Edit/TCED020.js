@@ -1,72 +1,69 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
-const path = require("path");
 
-(async function editDocument() {
+async function clickCancelButton() {
   let driver = await new Builder().forBrowser("chrome").build();
+
   try {
-    // Login ke aplikasi
+    // Buka halaman login
     await driver.get("http://127.0.0.1:8000/login");
+
+    // Isi formulir login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    // Tunggu sampai halaman home
-    await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+
     console.log("Login berhasil!");
 
-    // Navigasi ke halaman List Dokumen
-    await driver.findElement(By.id("v-pills-messages-tab")).click();
-    console.log("Navigasi ke halaman List Dokumen");
-
-    // Tunggu sampai elemen unik di halaman List Dokumen muncul
-    await driver.wait(until.elementLocated(By.css("h3.judul")), 30000);
-    console.log("Elemen 'h3.judul' ditemukan di halaman List Dokumen");
-
-    let listPageTitle = await driver.findElement(By.css("h3.judul")).getText();
-    console.log("Judul halaman:", listPageTitle);
-
-    if (listPageTitle.toLowerCase() === "list dokumen") {
-      console.log("Berhasil mengakses halaman List Dokumen!");
-
-      await driver.executeScript("window.scrollBy(10000,0)");
-      console.log("Scroll ke kanan untuk menampilkan ikon edit");
-
-      await driver.sleep(2000);
-
-      // Pilih dokumen pertama di daftar dan klik tombol edit
-      let editButton = await driver.findElement(By.css("a[href*='edit'] .fa-edit"));
-      await driver.executeScript("arguments[0].scrollIntoView();", editButton);
-      await editButton.click();
-      console.log("Klik tombol edit pada dokumen pertama di daftar");
-
-      await driver.sleep(2000);
-
-      let editPageTitle = await driver.findElement(By.css("h3.judul")).getText();
-      console.log("Judul halaman edit:", editPageTitle);
-
-      if (editPageTitle === "UPDATE DOKUMEN") {
-        console.log("Berhasil mengakses halaman Edit Dokumen!");
-
-        // Scroll ke bawah untuk memastikan tombol "Cancel" terlihat di layar
-        await driver.executeScript("window.scrollBy(0, 500)");
-
-        await driver.sleep(5000);
-
-        await driver.wait(until.elementLocated(By.css("button.btn.btn-secondary")), 15000);
-
-        let cancelButton = await driver.findElement(By.css("button.btn.btn-secondary"));
-
-        await cancelButton.click();
-        console.log("Update dokumen dibatalkan!");
-      } else {
-        throw new Error("Tidak berhasil mengakses halaman Edit Dokumen!");
-      }
-    } else {
-      throw new Error("Tidak berhasil mengakses halaman List Dokumen!");
+    // Cek apakah modal notifikasi muncul dan tutup
+    try {
+      let modalCloseButton = await driver.findElement(By.css(".modal.show .btn-close"));
+      await modalCloseButton.click();
+      console.log("Modal notifikasi ditutup!");
+    } catch (error) {
+      console.log("Modal notifikasi tidak ditemukan, melanjutkan proses...");
     }
+
+    await driver.sleep(1000);
+    // Tunggu halaman List Dokumen Saya dimuat
+    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
+    await driver.sleep(1000);
+
+    // Scroll ke kanan untuk menampilkan icon edit
+    await driver.executeScript("window.scrollBy(10000,0)");
+    console.log("Scroll ke kanan untuk menampilkan ikon edit");
+
+    // Penundaan sebelum mengklik tombol edit
+    await driver.sleep(2000);
+
+    // Pilih dokumen pertama di daftar dan klik tombol edit
+    let editButton = await driver.findElement(By.css("a[href*='edit'] .fa-edit"));
+    await driver.executeScript("arguments[0].scrollIntoView();", editButton);
+    await editButton.click();
+    console.log("Klik tombol edit pada dokumen pertama di daftar");
+
+    // Penundaan sebelum mengklik tombol Cancel
+    await driver.sleep(2000);
+
+    // Temukan tombol "Cancel" dan klik menggunakan Actions
+    let cancelButton = await driver.findElement(By.css('a[href*="list-dokumen-user"].btn.btn-secondary'));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", cancelButton);
+    await driver.sleep(1000);
+
+    // Gunakan Actions untuk klik tombol Cancel
+    let actions = driver.actions({ async: true });
+    await actions.move({ origin: cancelButton }).click().perform();
+    console.log("Tombol Cancel diklik!");
+
+    // Tunggu redirection setelah klik tombol Cancel
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/list-dokumen-user"));
+    console.log("Berhasil diarahkan ke halaman List Dokumen User setelah klik Cancel");
   } catch (error) {
-    console.error("Login gagal atau navigasi gagal:", error);
+    console.error("Terjadi kesalahan:", error);
   } finally {
     await driver.quit();
   }
-})();
+}
+
+clickCancelButton();

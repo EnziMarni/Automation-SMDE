@@ -10,15 +10,15 @@ async function downloadDocument() {
 
     // Login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
     console.log("Login berhasil!");
 
     await driver.get("http://127.0.0.1:8000/list-dokumen");
 
-    await driver.wait(until.elementLocated(By.id("documentTableBody")), 10000);
+    await driver.wait(until.elementLocated(By.id("documentTableBody")));
 
     // Baris dokumen yang filenya akan di  download
     let secondRow = await driver.findElement(By.css("#documentTableBody tr:nth-child(2)"));
@@ -28,14 +28,11 @@ async function downloadDocument() {
 
     // Scroll horizontal ke kanan
     await driver.executeScript("window.scrollBy(1000,0)");
-    await driver.sleep(1000);
 
     let downloadLink = await secondRow.findElement(By.css("a.btn.btn-link[download]"));
 
-    await driver.wait(until.elementIsVisible(downloadLink), 2000);
+    await driver.wait(until.elementIsVisible(downloadLink), 1000);
     await driver.executeScript("arguments[0].click();", downloadLink);
-
-    await driver.sleep(2000);
 
     console.log("Unduh Dokumen Berhasil");
   } catch (error) {

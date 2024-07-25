@@ -10,15 +10,15 @@ async function viewDocumentHistory() {
 
     // Login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
     console.log("Login berhasil!");
 
     // Akses halaman list dokumen
     await driver.get("http://127.0.0.1:8000/list-dokumen");
-    await driver.sleep(1000);
+
     console.log("Berhasil akses halaman list dokumen");
 
     // Tunggu hingga elemen documentTableBody muncul

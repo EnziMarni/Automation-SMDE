@@ -8,11 +8,10 @@ const path = require("path");
 
     // Isi formulir login
     await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
     await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
 
     // Tunggu sampai halaman home
-    await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"), 15000);
+    await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"));
     console.log("Login berhasil!");
 
     await driver.sleep(3000);
@@ -26,11 +25,11 @@ const path = require("path");
       console.log("Modal notifikasi tidak ditemukan, melanjutkan proses...");
     }
 
-    // Akses halaman Input Dokumen
-    await driver.findElement(By.id("v-pills-profile-tab")).click();
+    await driver.get("http://127.0.0.1:8000/input-dokumen");
+    await driver.wait(until.urlIs("http://127.0.0.1:8000/input-dokumen"));
 
     // Tunggu sampai elemen unik di halaman Pilih Tipe Dokumen muncul
-    await driver.wait(until.elementLocated(By.css(".card-header")), 10000);
+    await driver.wait(until.elementLocated(By.css(".card-header")));
     let pageTitle = await driver.findElement(By.css(".card-header")).getText();
 
     if (pageTitle === "Pilih Tipe Dokumen") {
@@ -60,45 +59,35 @@ const path = require("path");
 
       // Isi formulir tambahan untuk input dokumen
       await driver.findElement(By.name("judul_dokumen")).sendKeys("Dokumen testing");
-      await driver.sleep(1000);
 
       await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Ini adalah deskripsi dokumen testing");
-      await driver.sleep(1000);
 
       // Pilih kategori dokumen
       await driver.findElement(By.name("kategori_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER);
-      await driver.sleep(1000);
 
       // Pilih validasi dokumen
       await driver.findElement(By.name("validasi_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER);
-      await driver.sleep(1000);
 
       // Isi tahun dokumen
       await driver.findElement(By.name("tahun_dokumen")).sendKeys("2023");
       await driver.sleep(1000);
 
       // Isi formulir Input Dokumen File
-      let filePath = path.resolve("D:\\Automation_SMDE\\Testing Javascript\\Automation Home\\Kartu Pendaftaran DTS.pdf");
+      let filePath = path.resolve("D:\\Automation_SMDE\\Testing Javascript\\Automation Home\\Dokumen Internal.pdf");
       await driver.findElement(By.id("formFile")).sendKeys(filePath);
       await driver.sleep(1000);
 
+      // Klik checkbox "All"
+      let checkboxAll = await driver.findElement(By.css('input.form-check-input[value="All"]'));
+      await driver.executeScript("arguments[0].scrollIntoView(true);", checkboxAll);
+      await driver.sleep(1000);
+      await checkboxAll.click();
+      console.log("Checkbox 'All' berhasil dichecklist!");
+
       // Mengisi tags
       await driver.findElement(By.id("tags")).sendKeys("testing, satu, dua", Key.RETURN);
-      await driver.sleep(30000);
-
-      // Tunggu hingga checkbox dengan ID 'All' muncul
-      await driver.wait(until.elementLocated(By.id("All")), 20000); // Increase timeout to 20 seconds
-      let allCheckbox = await driver.findElement(By.id("All"));
-      if (!(await allCheckbox.isSelected())) {
-        await allCheckbox.click();
-      }
-
-      // Scroll ke tombol submit
-      await driver.executeScript("arguments[0].scrollIntoView(true);", await driver.findElement(By.css("button[type='submit']")));
       await driver.sleep(1000);
 
-      // Submit form
-      await driver.findElement(By.css("button[type='submit']")).click();
       console.log("Form berhasil dikirim!");
     } else {
       throw new Error("Tidak berhasil mengakses halaman Pilih Tipe Dokumen!");

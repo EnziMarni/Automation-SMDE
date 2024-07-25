@@ -20,26 +20,38 @@ async function editKategoriDokumen() {
     // Navigasi ke halaman List Kategori Dokumen
     await driver.get("http://localhost:8000/kategori-dokumen-view");
 
-    // Cari tombol Edit pada kategori yang ingin diubah (misalnya kategori pertama dalam tabel)
-    let editButton = await driver.findElement(By.css("a.btn-warning"));
-    await editButton.click();
+    // Cari semua tombol Edit
+    let editButtons = await driver.findElements(By.css("a.btn-warning"));
+    if (editButtons.length >= 17) {
+      let editButtonBarisKedelapanBelas = editButtons[16]; // Index 17 untuk baris ke-18 (index mulai dari 0)
 
-    // Isi form dengan nama kategori yang baru
-    let inputField = await driver.findElement(By.id("nama_dokumen"));
-    await inputField.clear(); // Hapus teks yang ada
-    await driver.sleep(1000);
-    await inputField.sendKeys("Kategori Baru Diedit");
-    await driver.sleep(1000);
+      // Scroll to the edit button to ensure it is visible
+      await driver.executeScript("arguments[0].scrollIntoView(true);", editButtonBarisKedelapanBelas);
 
-    // Klik tombol "Update" untuk menyimpan perubahan
-    await driver.findElement(By.css('button[type="submit"]')).click();
-    await driver.sleep(1000);
+      // Ensure the element is visible and enabled
+      await driver.wait(until.elementIsVisible(editButtonBarisKedelapanBelas), 10000);
+      await driver.wait(until.elementIsEnabled(editButtonBarisKedelapanBelas), 10000);
 
-    // Tunggu hingga ada pesan sukses
-    let successMessage = await driver.wait(until.elementLocated(By.css(".alert-success")), 10000);
-    assert.ok(successMessage, "Pesan sukses tidak muncul.");
+      // Click the edit button using JavaScript
+      await driver.executeScript("arguments[0].click();", editButtonBarisKedelapanBelas);
 
-    console.log("Test berhasil: Kategori dokumen berhasil diedit");
+      // Isi form dengan nama kategori yang baru
+      let inputField = await driver.findElement(By.id("nama_dokumen"));
+      await inputField.clear(); // Hapus teks yang ada
+
+      await inputField.sendKeys("Kategori Baru Diedit");
+
+      // Klik tombol "Update" untuk menyimpan perubahan
+      await driver.findElement(By.css('button[type="submit"]')).click();
+
+      // Tunggu hingga ada pesan sukses
+      let successMessage = await driver.wait(until.elementLocated(By.css(".alert-success")), 10000);
+      assert.ok(successMessage, "Pesan sukses tidak muncul.");
+
+      console.log("Test berhasil: Kategori dokumen berhasil diedit");
+    } else {
+      throw new Error("Tombol Edit untuk baris ke-18 tidak ditemukan.");
+    }
   } catch (error) {
     console.error("Test gagal:", error);
   } finally {
