@@ -6,7 +6,7 @@ async function registerStudent() {
 
   try {
     // Buka halaman register
-    await driver.get("http://127.0.0.1:8000/register");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/register");
 
     // Tunggu hingga halaman register dimuat
     await driver.wait(until.elementLocated(By.id("name")), 10000);

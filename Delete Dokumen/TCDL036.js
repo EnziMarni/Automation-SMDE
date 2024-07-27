@@ -6,19 +6,19 @@ async function deleteDocument() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
     // Tunggu sampai berhasil login dan halaman home terbuka
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 20000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 20000);
     console.log("Login berhasil!");
 
     // Navigasi ke halaman list dokumen
-    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen-user");
 
     // Tunggu sampai elemen list dokumen terlihat
     await driver.wait(until.elementLocated(By.css("#documentTableBody tr")), 20000);
@@ -42,7 +42,6 @@ async function deleteDocument() {
     // Tunggu sampai konfirmasi muncul dan terima konfirmasi
     await driver.wait(until.alertIsPresent(), 2000);
     await driver.switchTo().alert().accept();
-    await driver.sleep(1000);
 
     console.log("Dokumen berhasil dihapus");
   } catch (error) {

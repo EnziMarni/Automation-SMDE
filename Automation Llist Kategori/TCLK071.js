@@ -17,10 +17,10 @@ async function addKategoriDokumen() {
     await driver.findElement(By.css('button[type="submit"]')).click();
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     // Navigasi ke halaman List Kategori Dokumen
-    await driver.get("http://localhost:8000/kategori-dokumen-view");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/kategori-dokumen-view");
 
     // Tunggu hingga tombol "Tambah Kategori Dokumen" ada dan klik tombol tersebut
     let addButton = await driver.findElement(By.css('button[data-bs-target="#addModal"]'));

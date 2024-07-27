@@ -18,10 +18,10 @@ async function addRoleDokumen() {
     await driver.sleep(1000);
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     // Navigasi ke halaman List Kategori Dokumen
-    await driver.get("http://127.0.0.1:8000/validasi-view");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/validasi-view");
     await driver.sleep(1000);
 
     // Tunggu hingga tombol "Tambah Kategori Dokumen" ada dan klik tombol tersebut

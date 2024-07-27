@@ -17,10 +17,10 @@ async function editValidation(rowIndex, newName) {
     await driver.sleep(1000);
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     // Navigasi ke halaman List Validasi
-    await driver.get("http://localhost:8000/validasi");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/validasi");
 
     // Tunggu hingga tabel validasi ada
     let table = await driver.wait(until.elementLocated(By.css("table.table")), 10000);
@@ -57,7 +57,7 @@ async function editValidation(rowIndex, newName) {
       await driver.findElement(By.css('button[type="submit"]')).click();
       await driver.sleep(1000);
 
-      console.log(`Test berhasil: Validasi pada baris ke-${rowIndex + 1} berhasil diubah.`);
+      console.log(`Test berhasil: Validasi pada baris ke-${rowIndex + 1} gagal diubah.`);
     } else {
       console.log(`Baris dengan indeks ${rowIndex} tidak ditemukan dalam tabel.`);
     }

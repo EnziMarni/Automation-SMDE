@@ -6,18 +6,18 @@ async function viewDocumentHistory() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"));
     console.log("Login berhasil!");
 
     // Akses halaman list dokumen
-    await driver.get("http://127.0.0.1:8000/list-dokumen");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen-user");
 
     console.log("Berhasil akses halaman list dokumen");
 
@@ -35,7 +35,7 @@ async function viewDocumentHistory() {
 
     // Klik ikon history
     await viewHistoryIcon.click();
-    await driver.sleep(2000);
+    await driver.sleep(1000);
 
     await driver.wait(until.elementLocated(By.css("a.btn.btn-primary[href*='list-dokumen']")), 1000);
     let backToListButton = await driver.findElement(By.css("a.btn.btn-primary[href*='list-dokumen']"));

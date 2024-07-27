@@ -6,18 +6,18 @@ async function searchDocument() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("sekjur@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("sekjur123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"));
     console.log("Login berhasil!");
 
     // Navigasi ke halaman list dokumen
-    await driver.get("http://127.0.0.1:8000/list-dokumen");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen");
 
     await driver.wait(until.elementLocated(By.css("input#search")));
 
@@ -30,7 +30,7 @@ async function searchDocument() {
 
     let rows = await driver.findElements(By.css("#documentTableBody tr"));
 
-    console.log("Search berhasil");
+    console.log("Search gagal");
   } catch (error) {
     console.error(`Terjadi kesalahan: ${error}`);
   } finally {

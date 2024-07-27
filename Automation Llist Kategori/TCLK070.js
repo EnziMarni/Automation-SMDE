@@ -17,10 +17,10 @@ async function testListKategoriPage() {
     await driver.findElement(By.css('button[type="submit"]')).click();
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"));
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"));
 
     // Navigasi ke halaman List Kategori Dokumen
-    await driver.get("http://127.0.0.1:8000/kategori-dokumen-view");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/kategori-dokumen-view");
 
     // Tunggu hingga judul halaman tampil
     let pageTitle = await driver.wait(until.elementLocated(By.css(".judul")), 10000).getText();

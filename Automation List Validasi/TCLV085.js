@@ -10,18 +10,16 @@ async function deleteCategory(rowIndex) {
 
     // Login sebagai Admin atau Kaprodi
     await driver.findElement(By.name("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.name("password")).sendKeys("admin123");
-    await driver.sleep(1000);
+
     await driver.findElement(By.css('button[type="submit"]')).click();
-    await driver.sleep(1000);
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     // Navigasi ke halaman List
-    await driver.get("http://localhost:8000/validasi-view");
-    await driver.sleep(1000);
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/validasi-view");
 
     // Tunggu hingga tabel validasi ada
     let table = await driver.wait(until.elementLocated(By.css("table.table")), 10000);
@@ -39,11 +37,9 @@ async function deleteCategory(rowIndex) {
 
       // Lakukan scroll ke tombol delete menggunakan JavaScript
       await driver.executeScript("arguments[0].scrollIntoView(true);", deleteButton);
-      await driver.sleep(1000);
 
       // Klik tombol delete menggunakan JavaScript untuk menghindari klik yang terhalang
       await driver.executeScript("arguments[0].click();", deleteButton);
-      await driver.sleep(1000);
 
       console.log("Test berhasil: Validasi berhasil dihapus");
     } else {
@@ -58,4 +54,4 @@ async function deleteCategory(rowIndex) {
 }
 
 // Menghapus baris terakhir yang ada (baris ke-18)
-deleteCategory(7);
+deleteCategory(6);

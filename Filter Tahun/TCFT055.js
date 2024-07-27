@@ -6,17 +6,17 @@ async function filterByYear() {
 
   try {
     // Masuk ke halaman login
-    await driver.get("http://127.0.0.1:8000/login");
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
+    await driver.findElement(By.id("email")).sendKeys("sekjur@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("sekjur123", Key.RETURN);
 
     // Tunggu sampai halaman utama terbuka
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"));
     console.log("Login berhasil!");
 
     // Buka halaman list dokumen
-    await driver.get("http://127.0.0.1:8000/list-dokumen");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen");
 
     console.log("Berhasil akses halaman list dokumen");
 
