@@ -7,28 +7,26 @@ async function addRoleDokumen() {
 
   try {
     // Navigasi ke halaman login
-    await driver.get("http://localhost:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Login sebagai Admin atau Kaprodi
     await driver.findElement(By.name("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.name("password")).sendKeys("admin123");
-    await driver.sleep(1000);
+
     await driver.findElement(By.css('button[type="submit"]')).click();
-    await driver.sleep(1000);
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     // Navigasi ke halaman List Kategori Dokumen
-    await driver.get("http://127.0.0.1:8000/jabatan-view");
-    await driver.sleep(1000);
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/jabatan-view");
 
     // Tunggu hingga tombol "Tambah Kategori Dokumen" ada dan klik tombol tersebut
     let addButton = await driver.findElement(By.css('button[data-bs-target="#addModal"]'));
     await driver.wait(until.elementIsVisible(addButton), 5000);
     await driver.wait(until.elementIsEnabled(addButton), 5000);
-    await driver.sleep(1000);
+
     await addButton.click();
 
     // Tunggu hingga modal tampil
@@ -39,7 +37,6 @@ async function addRoleDokumen() {
     let namaDokumenInput = await driver.findElement(By.id("nama_jabatan"));
     await driver.wait(until.elementIsVisible(namaDokumenInput), 5000);
     await namaDokumenInput.sendKeys("");
-    await driver.sleep(1000);
 
     console.log("Test Gagal: Role kosong tidak bisa ditambahkan");
   } catch (error) {

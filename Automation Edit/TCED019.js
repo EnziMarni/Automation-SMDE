@@ -5,14 +5,14 @@ async function editDocument() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"));
 
     console.log("Login berhasil!");
 
@@ -26,7 +26,7 @@ async function editDocument() {
     }
 
     // Tunggu halaman List Dokumen Saya dimuat
-    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen-user");
     await driver.sleep(1000);
 
     // Scroll ke kanan untuk menampilkan icon edit
@@ -53,7 +53,7 @@ async function editDocument() {
 
     // Pilih kategori
     await driver.findElement(By.id("kategoriDokumen")).click();
-    await driver.findElement(By.css('#kategoriDokumen option[value="Dokumen Keuangan"]')).click();
+    await driver.findElement(By.css('#kategoriDokumen option[value="Dokumen Pendidikan"]')).click();
     await driver.sleep(500);
 
     // Pilih validasi
@@ -89,12 +89,11 @@ async function editDocument() {
     await driver.executeScript("arguments[0].scrollIntoView(true);", checkboxAll);
     await driver.sleep(1000);
     await checkboxAll.click();
-    console.log("Checkbox berhasil dichecklist!");
     await driver.sleep(1000);
 
     // Tambahkan tags
     await driver.findElement(By.name("tags")).clear();
-    await driver.findElement(By.name("tags")).sendKeys("tag1,tag2");
+    await driver.findElement(By.name("tags")).sendKeys("repository, github");
     await driver.sleep(1000);
 
     // Submit formulir

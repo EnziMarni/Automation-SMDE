@@ -7,7 +7,7 @@ async function testListRolePage() {
 
   try {
     // Navigasi ke halaman login
-    await driver.get("http://localhost:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
     await driver.sleep(1000);
 
     // Login sebagai Admin atau Kaprodi
@@ -19,13 +19,13 @@ async function testListRolePage() {
     await driver.sleep(1000);
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     // Navigasi ke halaman List Validasi Dokumen
-    await driver.get("http://127.0.0.1:8000/validasi-view");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/validasi-view");
     await driver.sleep(1000);
 
-    console.log('Test berhasil: Halaman "List Role ditampilkan dengan benar');
+    console.log('Test berhasil: Halaman "List Validasi ditampilkan dengan benar');
   } catch (error) {
     console.error("Test gagal:", error);
   } finally {

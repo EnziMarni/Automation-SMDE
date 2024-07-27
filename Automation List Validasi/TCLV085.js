@@ -6,7 +6,7 @@ async function deleteCategory(rowIndex) {
 
   try {
     // Buka browser
-    await driver.get("http://localhost:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Login sebagai Admin atau Kaprodi
     await driver.findElement(By.name("email")).sendKeys("admin@example.com");

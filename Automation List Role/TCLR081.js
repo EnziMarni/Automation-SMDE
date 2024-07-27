@@ -7,7 +7,7 @@ async function editKategoriDokumen() {
 
   try {
     // Navigasi ke halaman login
-    await driver.get("http://localhost:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Login sebagai Admin atau Kaprodi
     await driver.findElement(By.name("email")).sendKeys("admin@example.com");
@@ -15,10 +15,10 @@ async function editKategoriDokumen() {
     await driver.findElement(By.css('button[type="submit"]')).click();
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     // Navigasi ke halaman List Kategori Dokumen
-    await driver.get("http://localhost:8000/jabatan-view");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/jabatan-view");
 
     // Cari tombol Edit pada kategori yang ingin diubah (misalnya kategori pertama dalam tabel)
     let editButton = await driver.findElement(By.css("a.btn-warning"));
@@ -27,13 +27,11 @@ async function editKategoriDokumen() {
     // Isi form dengan nama kategori yang baru
     let inputField = await driver.findElement(By.id("nama_jabatan"));
     await inputField.clear(); // Hapus teks yang ada
-    await driver.sleep(1000);
+
     await inputField.sendKeys("");
-    await driver.sleep(1000);
 
     // Klik tombol "Update" untuk menyimpan perubahan
     await driver.findElement(By.css('button[type="submit"]')).click();
-    await driver.sleep(1000);
 
     console.log("Test gagal : Role kosong tidak bisa di update");
   } catch (error) {

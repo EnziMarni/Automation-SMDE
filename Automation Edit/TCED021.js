@@ -6,14 +6,14 @@ async function editDocument() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     console.log("Login berhasil!");
 
@@ -29,7 +29,7 @@ async function editDocument() {
     }
 
     // Tunggu halaman List Dokumen Saya dimuat
-    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen-user");
     await driver.sleep(1000);
 
     // Scroll ke kanan untuk menampilkan icon edit
@@ -77,14 +77,14 @@ async function editDocument() {
 
     // Isi formulir edit dokumen
     await driver.findElement(By.name("judul_dokumen")).clear();
-    await driver.findElement(By.name("judul_dokumen")).sendKeys("Updated Judul Dokumen");
+    await driver.findElement(By.name("judul_dokumen")).sendKeys("Update Automation Repository");
 
     await driver.findElement(By.name("deskripsi_dokumen")).clear();
-    await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Updated Deskripsi Dokumen");
+    await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Update");
 
     // Pilih kategori
     await driver.findElement(By.id("kategoriDokumen")).click();
-    await driver.findElement(By.css('#kategoriDokumen option[value="Dokumen Keuangan"]')).click();
+    await driver.findElement(By.css('#kategoriDokumen option[value="Dokumen Pendidikan"]')).click();
 
     // Pilih validasi
     await driver.findElement(By.id("validasiDokumen")).click();
@@ -92,15 +92,15 @@ async function editDocument() {
 
     // Set tahun dokumen
     await driver.findElement(By.name("tahun_dokumen")).clear();
-    await driver.findElement(By.name("tahun_dokumen")).sendKeys("2023");
+    await driver.findElement(By.name("tahun_dokumen")).sendKeys("2024");
 
     // Isi field untuk link
     await driver.findElement(By.name("dokumen_link")).clear();
-    await driver.findElement(By.name("dokumen_link")).sendKeys("https://github.com/EnziMarni/TA-FINAL-BANGET");
+    await driver.findElement(By.name("dokumen_link")).sendKeys("https://docs.google.com/spreadsheets/d/1mnJfsw2mB928jDE0G4jERReGO-d680TykDl7-dmj-ZM/edit?usp=sharing");
     await driver.sleep(1000);
 
     // Klik checkbox "Ketua Jurusan"
-    let checkboxKetuaJurusan = await driver.findElement(By.css('input.form-check-input[value="Ketua Jurusan"]'));
+    let checkboxKetuaJurusan = await driver.findElement(By.css('input.form-check-input[value="All"]'));
     await driver.executeScript("arguments[0].scrollIntoView(true);", checkboxKetuaJurusan);
     await driver.sleep(1000);
     await checkboxKetuaJurusan.click();
@@ -109,7 +109,7 @@ async function editDocument() {
 
     // Tambahkan tags
     await driver.findElement(By.name("tags")).clear();
-    await driver.findElement(By.name("tags")).sendKeys("tag1,tag2");
+    await driver.findElement(By.name("tags")).sendKeys("test case");
 
     // Submit formulir
     await driver.findElement(By.css('button[type="submit"]')).click();

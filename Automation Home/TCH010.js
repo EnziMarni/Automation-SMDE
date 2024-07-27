@@ -3,9 +3,9 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 (async function home() {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
-    await driver.get("http://127.0.0.1:8000/login");
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"));
     console.log("Login berhasil!");
 

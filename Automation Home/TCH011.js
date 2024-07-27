@@ -4,13 +4,11 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     // Navigate to the login page and log in
-    await driver.get("http://127.0.0.1:8000/login");
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/home");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"));
     console.log("Login berhasil!");
-
-    await driver.sleep(3000);
 
     // Cek apakah modal notifikasi muncul dan tutup
     try {
@@ -22,7 +20,6 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     }
 
     await driver.findElement(By.id("navbarDropdown")).click();
-    await driver.sleep(1000);
 
     await driver.findElement(By.xpath("//a[contains(text(), 'Logout')]")).click();
     console.log("Logout successful!");

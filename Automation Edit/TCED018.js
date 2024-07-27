@@ -5,14 +5,14 @@ async function editDocument() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     console.log("Login berhasil!");
 
@@ -26,7 +26,7 @@ async function editDocument() {
     }
 
     // Tunggu halaman List Dokumen Saya dimuat
-    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen-user");
 
     // Scroll ke kanan untuk menampilkan icon edit
     await driver.executeScript("window.scrollBy(10000,0)");
@@ -43,16 +43,12 @@ async function editDocument() {
 
     // Isi formulir edit dokumen
     await driver.findElement(By.name("judul_dokumen")).clear();
-    await driver.findElement(By.name("judul_dokumen")).sendKeys("Updated Judul Dokumen");
-    await driver.sleep(500);
-
-    await driver.findElement(By.name("deskripsi_dokumen")).clear();
-    await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Updated Deskripsi Dokumen");
+    await driver.findElement(By.name("judul_dokumen")).sendKeys("Repository Update");
     await driver.sleep(500);
 
     // Pilih kategori
     await driver.findElement(By.id("kategoriDokumen")).click();
-    await driver.findElement(By.css('#kategoriDokumen option[value="Dokumen Keuangan"]')).click();
+    await driver.findElement(By.css('#kategoriDokumen option[value="Dokumen Pendidikan"]')).click();
     await driver.sleep(500);
 
     // Pilih validasi
@@ -75,7 +71,7 @@ async function editDocument() {
     if (isLink) {
       // Isi field untuk link
       await driver.findElement(By.name("dokumen_link")).clear();
-      await driver.findElement(By.name("dokumen_link")).sendKeys("https://github.com/EnziMarni/TA-FINAL-BANGET");
+      await driver.findElement(By.name("dokumen_link")).sendKeys("https://github.com/EnziMarni/Project-Tugas-Akhir/tree/revisi");
     } else {
       // Unggah file
       let fileInput = await driver.findElement(By.name("edit_dokumen_file"));

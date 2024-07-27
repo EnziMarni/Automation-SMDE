@@ -6,7 +6,7 @@ async function deleteCategory(rowIndex) {
 
   try {
     // Buka browser
-    await driver.get("http://localhost:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Login sebagai Admin atau Kaprodi
     await driver.findElement(By.name("email")).sendKeys("admin@example.com");
@@ -17,10 +17,10 @@ async function deleteCategory(rowIndex) {
     await driver.sleep(1000);
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("http://localhost:8000/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
 
     // Navigasi ke halaman List Role
-    await driver.get("http://localhost:8000/jabatan-view");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/jabatan-view");
     await driver.sleep(1000);
 
     // Tunggu hingga tabel role ada
@@ -58,4 +58,4 @@ async function deleteCategory(rowIndex) {
 }
 
 // Menghapus baris terakhir yang ada (baris ke-18)
-deleteCategory(9);
+deleteCategory(8);

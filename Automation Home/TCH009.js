@@ -6,11 +6,11 @@ async function loginAndNavigate() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
     console.log("Login berhasil!");
 
@@ -25,29 +25,33 @@ async function loginAndNavigate() {
 
     // Fungsi untuk mengklik tautan navigasi
     async function navigateTo(linkText, expectedUrl) {
-      await driver.findElement(By.linkText(linkText)).click();
-      await driver.wait(until.urlIs(expectedUrl));
-      console.log(`Navigated to ${linkText}`);
+      try {
+        console.log(`Navigating to ${linkText}...`);
+        await driver.findElement(By.linkText(linkText)).click();
+        await driver.wait(until.urlIs(expectedUrl), 30000); // Timeout 30 detik
+        console.log(`Navigated to ${linkText}`);
+      } catch (error) {
+        console.error(`Failed to navigate to ${linkText}: ${error.message}`);
+      }
     }
 
     // Akses setiap tautan navigasi
-
-    await navigateTo("Upload Dokumen", "http://127.0.0.1:8000/input-dokumen");
-    await navigateTo("List Dokumen", "http://127.0.0.1:8000/list-dokumen");
-    await navigateTo("Dokumen Saya", "http://127.0.0.1:8000/list-dokumen-user");
-    await navigateTo("Deleted Dokumen", "http://127.0.0.1:8000/draft-dokumen");
+    await navigateTo("Upload Dokumen", "https://apps.srpcenter.com/TA/Enzi2024/input-dokumen");
+    await navigateTo("List Dokumen", "https://apps.srpcenter.com/TA/Enzi2024/list-dokumen");
+    await navigateTo("Dokumen Saya", "https://apps.srpcenter.com/TA/Enzi2024/list-dokumen-user");
+    await navigateTo("Deleted Dokumen", "https://apps.srpcenter.com/TA/Enzi2024/draft-dokumen");
 
     // Akses tautan yang hanya tersedia untuk Admin
-    if (await isElementPresent(By.linkText("List Kategori"))) {
-      await navigateTo("List Kategori", "http://127.0.0.1:8000/kategori-dokumen-view");
-      await navigateTo("List Role", "http://127.0.0.1:8000/jabatan-view");
-      await navigateTo("List User", "http://127.0.0.1:8000/list-user");
-      await navigateTo("List Validasi", "http://127.0.0.1:8000/validasi-view");
+    if (await isElementPresent(driver, By.linkText("List Kategori"))) {
+      await navigateTo("List Kategori", "https://apps.srpcenter.com/TA/Enzi2024/kategori-dokumen-view");
+      await navigateTo("List Role", "https://apps.srpcenter.com/TA/Enzi2024/jabatan-view");
+      await navigateTo("List User", "https://apps.srpcenter.com/TA/Enzi2024/list-user");
+      await navigateTo("List Validasi", "https://apps.srpcenter.com/TA/Enzi2024/validasi-view");
     }
 
     // Akses tautan yang hanya tersedia untuk Kaprodi
-    if (await isElementPresent(By.linkText("List User"))) {
-      await navigateTo("List User", "http://127.0.0.1:8000/list-user");
+    if (await isElementPresent(driver, By.linkText("List User"))) {
+      await navigateTo("List User", "https://apps.srpcenter.com/TA/Enzi2024/list-user");
     }
   } finally {
     // Tutup browser
@@ -56,7 +60,7 @@ async function loginAndNavigate() {
 }
 
 // Fungsi untuk memeriksa apakah elemen ada
-async function isElementPresent(locator) {
+async function isElementPresent(driver, locator) {
   try {
     await driver.findElement(locator);
     return true;

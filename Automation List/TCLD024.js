@@ -4,13 +4,13 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     // Login
-    await driver.get("http://127.0.0.1:8000/login");
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
+    await driver.findElement(By.id("email")).sendKeys("sekjur@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("sekjur123", Key.RETURN);
 
     // Akses halaman list dokumen
-    await driver.get("http://127.0.0.1:8000/list-dokumen");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen");
 
     async function searchByTitle(query) {
       // Mendapatkan nilai input pencarian

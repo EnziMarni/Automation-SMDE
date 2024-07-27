@@ -6,7 +6,7 @@ async function approveStudent() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Isi formulir login
     await driver.findElement(By.id("email")).sendKeys("kaprodi@example.com");
@@ -14,12 +14,19 @@ async function approveStudent() {
     await driver.findElement(By.id("password")).sendKeys("kaprodi123", Key.RETURN);
 
     // Tunggu hingga login berhasil dan diarahkan ke halaman home
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"));
 
     console.log("Login berhasil!");
+    try {
+      let modalCloseButton = await driver.findElement(By.css(".modal.show .btn-close"));
+      await modalCloseButton.click();
+      console.log("Modal notifikasi ditutup!");
+    } catch (error) {
+      console.log("Modal notifikasi tidak ditemukan, melanjutkan proses...");
+    }
 
     // Buka halaman daftar pengguna
-    await driver.get("http://127.0.0.1:8000/list-user");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-user");
 
     await driver.wait(until.elementLocated(By.css("table.table")));
 

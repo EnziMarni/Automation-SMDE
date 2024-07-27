@@ -7,8 +7,8 @@ const path = require("path");
     await driver.get("http://127.0.0.1:8000/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
     // Tunggu sampai halaman home
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"));
@@ -33,8 +33,6 @@ const path = require("path");
     let pageTitle = await driver.findElement(By.css(".card-header")).getText();
 
     if (pageTitle === "Pilih Tipe Dokumen") {
-      console.log("Berhasil mengakses halaman Pilih Tipe Dokumen!");
-
       // Pilih tipe dokumen
       await driver.findElement(By.id("inputType")).sendKeys(Key.ARROW_DOWN, Key.ENTER);
       await driver.sleep(1000);
@@ -58,9 +56,9 @@ const path = require("path");
       }
 
       // Isi formulir tambahan untuk input dokumen
-      await driver.findElement(By.name("judul_dokumen")).sendKeys("Dokumen testing");
+      await driver.findElement(By.name("judul_dokumen")).sendKeys("Dokumen Sertifikat");
 
-      await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Ini adalah deskripsi dokumen testing");
+      await driver.findElement(By.name("deskripsi_dokumen")).sendKeys("Sertifikat Magang Merdeka_Batch 5");
 
       // Pilih kategori dokumen
       await driver.findElement(By.name("kategori_dokumen")).sendKeys(Key.ARROW_DOWN, Key.ENTER);
@@ -73,7 +71,7 @@ const path = require("path");
       await driver.sleep(1000);
 
       // Isi formulir Input Dokumen File
-      let filePath = path.resolve("D:\\Automation_SMDE\\Testing Javascript\\Automation Home\\Dokumen Internal.pdf");
+      let filePath = path.resolve("D:\\SERTIFIKAT ENZI MARNI\\Sertifikat-MSIB-5 [TTD]-Enzi Marni.pdf");
       await driver.findElement(By.id("formFile")).sendKeys(filePath);
       await driver.sleep(1000);
 
@@ -82,10 +80,9 @@ const path = require("path");
       await driver.executeScript("arguments[0].scrollIntoView(true);", checkboxAll);
       await driver.sleep(1000);
       await checkboxAll.click();
-      console.log("Checkbox 'All' berhasil dichecklist!");
 
       // Mengisi tags
-      await driver.findElement(By.id("tags")).sendKeys("testing, satu, dua", Key.RETURN);
+      await driver.findElement(By.id("tags")).sendKeys("sertifikat, MSIB", Key.RETURN);
       await driver.sleep(1000);
 
       console.log("Form berhasil dikirim!");

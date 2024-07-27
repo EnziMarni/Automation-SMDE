@@ -4,12 +4,12 @@ const path = require("path");
 (async function input() {
   let driver = await new Builder().forBrowser("chrome").build();
   try {
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
     // Tunggu sampai halaman home
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"));
@@ -24,8 +24,8 @@ const path = require("path");
       console.log("Modal notifikasi tidak ditemukan, melanjutkan proses...");
     }
 
-    await driver.get("http://127.0.0.1:8000/input-dokumen");
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/input-dokumen"));
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/input-dokumen");
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/input-dokumen"));
 
     // Tunggu sampai elemen unik di halaman Pilih Tipe Dokumen muncul
     await driver.wait(until.elementLocated(By.css(".card-header")));
@@ -45,7 +45,7 @@ const path = require("path");
 
       // Tunggu sampai halaman input dokumen sesuai dengan tipe yang dipilih
       if (inputType === "file") {
-        await driver.wait(until.urlContains("http://127.0.0.1:8000/input-dokumen/file"), 1000);
+        await driver.wait(until.urlContains("https://apps.srpcenter.com/TA/Enzi2024/input-dokumen/file"), 1000);
         console.log("Berhasil mengakses halaman Input Dokumen File!");
       } else if (inputType === "link") {
         await driver.wait(until.urlContains("input-dokumen-link"), 1000);
@@ -70,7 +70,7 @@ const path = require("path");
       await driver.sleep(1000);
 
       // Isi formulir Input Dokumen File
-      let filePath = path.resolve("D:\\Automation_SMDE\\Testing Javascript\\Automation Home\\Dokumen Internal.pdf");
+      let filePath = path.resolve("D:\\SERTIFIKAT ENZI MARNI\\Sertifikat-MSIB-5 [TTD]-Enzi Marni.pdf");
       await driver.findElement(By.id("formFile")).sendKeys(filePath);
       await driver.sleep(1000);
 
@@ -79,7 +79,6 @@ const path = require("path");
       await driver.executeScript("arguments[0].scrollIntoView(true);", checkboxAll);
       await driver.sleep(1000);
       await checkboxAll.click();
-      console.log("Checkbox 'All' berhasil dichecklist!");
 
       // Mengisi tags
       await driver.findElement(By.id("tags")).sendKeys("123", Key.RETURN);

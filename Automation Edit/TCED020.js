@@ -5,14 +5,14 @@ async function clickCancelButton() {
 
   try {
     // Buka halaman login
-    await driver.get("http://127.0.0.1:8000/login");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
 
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/home"));
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"));
 
     console.log("Login berhasil!");
 
@@ -27,7 +27,7 @@ async function clickCancelButton() {
 
     await driver.sleep(1000);
     // Tunggu halaman List Dokumen Saya dimuat
-    await driver.get("http://127.0.0.1:8000/list-dokumen-user");
+    await driver.get("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen-user");
     await driver.sleep(1000);
 
     // Scroll ke kanan untuk menampilkan icon edit
@@ -57,7 +57,7 @@ async function clickCancelButton() {
     console.log("Tombol Cancel diklik!");
 
     // Tunggu redirection setelah klik tombol Cancel
-    await driver.wait(until.urlIs("http://127.0.0.1:8000/list-dokumen-user"));
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/list-dokumen-user"));
     console.log("Berhasil diarahkan ke halaman List Dokumen User setelah klik Cancel");
   } catch (error) {
     console.error("Terjadi kesalahan:", error);
