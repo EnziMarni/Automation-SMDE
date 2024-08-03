@@ -16,6 +16,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
     // Click icon delete
     let deleteButton = await driver.findElement(By.xpath("//table/tbody/tr[1]/td[11]/form/button/i"));
     await driver.executeScript("arguments[0].click();", deleteButton);
+    console.log("Berhasil klik icon delete");
   } finally {
     await driver.quit();
   }

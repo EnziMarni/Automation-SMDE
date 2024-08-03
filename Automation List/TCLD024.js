@@ -16,8 +16,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
       // Mendapatkan nilai input pencarian
       await driver.findElement(By.id("search")).sendKeys(query);
     }
-
-    await searchByTitle("Contoh");
+    await searchByTitle("Dokumen");
 
     console.log("judul dokumen berhasil di cari");
   } finally {

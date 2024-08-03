@@ -7,8 +7,8 @@ const path = require("path");
     await driver.get("https://apps.srpcenter.com/TA/Enzi2024/login");
 
     // Isi formulir login
-    await driver.findElement(By.id("email")).sendKeys("admin@example.com");
-    await driver.findElement(By.id("password")).sendKeys("admin123", Key.RETURN);
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa@example.com");
+    await driver.findElement(By.id("password")).sendKeys("mahasiswa123", Key.RETURN);
 
     // Tunggu sampai halaman home
     await driver.wait(until.titleIs("Sistem Manajemen Dokumen Elektronik"));

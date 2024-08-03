@@ -10,11 +10,10 @@ async function editValidation(rowIndex, newName) {
 
     // Login sebagai Admin atau Kaprodi (sesuaikan dengan login di aplikasi Anda)
     await driver.findElement(By.name("email")).sendKeys("admin@example.com");
-    await driver.sleep(1000);
+
     await driver.findElement(By.name("password")).sendKeys("admin123");
-    await driver.sleep(1000);
+
     await driver.findElement(By.css('button[type="submit"]')).click();
-    await driver.sleep(1000);
 
     // Tunggu hingga halaman beranda ditampilkan
     await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
@@ -38,11 +37,9 @@ async function editValidation(rowIndex, newName) {
 
       // Lakukan scroll ke tombol edit menggunakan JavaScript
       await driver.executeScript("arguments[0].scrollIntoView(true);", editButton);
-      await driver.sleep(1000);
 
       // Klik tombol edit
       await editButton.click();
-      await driver.sleep(1000);
 
       // Tunggu hingga form edit muncul
       await driver.wait(until.urlContains("/edit"), 10000);
@@ -54,7 +51,6 @@ async function editValidation(rowIndex, newName) {
 
       // Submit form
       await driver.findElement(By.css('button[type="submit"]')).click();
-      await driver.sleep(1000);
 
       // Tunggu hingga ada pesan sukses
       let successMessage = await driver.wait(until.elementLocated(By.css(".alert-success")), 10000);
@@ -73,4 +69,4 @@ async function editValidation(rowIndex, newName) {
 }
 
 // Mengedit validasi pada baris ke-4 (indeks 3, dimulai dari 0)
-editValidation(7, "Nama Validasi Baru di edit");
+editValidation(6, "Nama Validasi Baru di edit");

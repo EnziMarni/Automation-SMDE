@@ -13,9 +13,9 @@ async function registerStudent() {
     console.log("Halaman register berhasil dimuat");
 
     // Isi form register
-    await driver.findElement(By.id("name")).sendKeys("Test Mahasiswa baru");
+    await driver.findElement(By.id("name")).sendKeys("Test Mahasiswa");
 
-    await driver.findElement(By.id("email")).sendKeys("mahasiswabaru@example.com");
+    await driver.findElement(By.id("email")).sendKeys("mahasiswa2020@example.com");
 
     await driver.findElement(By.id("password")).sendKeys("password123");
 

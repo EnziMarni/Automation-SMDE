@@ -15,7 +15,7 @@ async function editKategoriDokumen() {
     await driver.findElement(By.css('button[type="submit"]')).click();
 
     // Tunggu hingga halaman beranda ditampilkan
-    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 10000);
+    await driver.wait(until.urlIs("https://apps.srpcenter.com/TA/Enzi2024/home"), 1000);
 
     // Navigasi ke halaman List Kategori Dokumen
     await driver.get("https://apps.srpcenter.com/TA/Enzi2024/kategori-dokumen-view");
@@ -32,7 +32,6 @@ async function editKategoriDokumen() {
 
     // Klik tombol "Update" untuk menyimpan perubahan
     await driver.findElement(By.css('button[type="submit"]')).click();
-    await driver.sleep(1000);
 
     console.log("Test gagal : Edit kategori tidak bisa kosong");
   } catch (error) {
